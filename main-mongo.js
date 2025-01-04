@@ -1392,5 +1392,5 @@ app.get('/History/DownloadQR/:id', async (req, res) => {
     }
 });
 //port
-const PORT = process.env.PORT || 5100;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT)
