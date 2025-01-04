@@ -8,7 +8,7 @@ const PDFDocument = require('pdfkit');
 const session = require('express-session');
 const {Account,Database,ToDatabase,Feedback}=require('./schema-mongo');
 require('dotenv').config({path: './ImportantLinks.env'});
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const MongoClient= require('mongoose');
 
 
 const app=express()
@@ -21,28 +21,25 @@ app.use(express.static('img'));
 
 
 
-const client = new MongoClient(process.env.uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-  });
-
+// const client = new MongoClient(process.env.uri, {
+//     serverApi: {
+//       strict: true,
+//       deprecationErrors: true,
+//     }
+//   });
   
-  async function run() {
+async function run() {
     try {
-      await client.connect();  // Connects to MongoDB
-      await client.db("admin").command({ ping: 1 });  // Sends a ping command to confirm successful connection
-      console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } finally {
-      await client.close();  // Ensures that the client is closed after the operation
+      // Connect to MongoDB
+      await mongoose.connect(process.env.uri); // No additional options needed
+      console.log("Connected successfully to MongoDB!");
+    } catch (error) {
+      console.error("Error connecting to MongoDB:", error.message);
     }
   }
-  run().catch(console.dir);
   
-
-
+  // Call the run function
+  run();
 
 app.use(session({
     secret: 'your_secret_key',
