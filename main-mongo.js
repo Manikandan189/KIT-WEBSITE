@@ -8,6 +8,7 @@ const PDFDocument = require('pdfkit');
 const session = require('express-session');
 const {Account,Database,ToDatabase,Feedback}=require('./schema-mongo');
 require('dotenv').config({path: './ImportantLinks.env'});
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
 const app=express()
@@ -17,17 +18,29 @@ app.use(bodyParser.json());
 app.use(express.static('css'));
 app.use(express.static('js'));
 app.use(express.static('img'));
-main()
-async function main()
-{
-   try {
-    await mongoose.connect(process.env.MONGODB_URL);
-    console.log("Database connected successfully");
-} catch (error) {
-    console.error("Database connection error:", error);
-}
 
-}
+
+
+const client = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+  });
+
+  
+  async function run() {
+    try {
+      await client.connect();  // Connects to MongoDB
+      await client.db("admin").command({ ping: 1 });  // Sends a ping command to confirm successful connection
+      console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    } finally {
+      await client.close();  // Ensures that the client is closed after the operation
+    }
+  }
+  run().catch(console.dir);
+  
 
 
 
