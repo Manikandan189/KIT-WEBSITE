@@ -1185,15 +1185,6 @@ app.post('/Status', async (req, res) => {
             }
         }
 
-        // Second Database Check
-        hodRecord = await ToDatabase.findOne({ register_number });
-        if (hodRecord) {
-            const { type, status } = hodRecord;
-            if (type === "homepass") {
-                return res.json({ message: status });
-            }
-        }
-
         // If no record found
         res.status(404).json({ message: "Record not found" });
     } catch (error) {
