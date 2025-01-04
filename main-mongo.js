@@ -21,7 +21,7 @@ app.use(express.static('img'));
 
 
 
-const client = new MongoClient(uri, {
+const client = new MongoClient(process.env.uri, {
     serverApi: {
       version: ServerApiVersion.v1,
       strict: true,
