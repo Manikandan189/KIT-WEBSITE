@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests For Outpass</title>
+    <link rel="stylesheet" href="/css-principal-veriy.css">
+    <script src="/js-staff-verify.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="side-menu" class="side-menu">
+            <img src="/kit.png" class="kitlogoSideBar" alt="Logo">
+            <ul>
+                <li><a href="/AdvisorVerify">HOMEPASS</a></li>
+                <li><a href="/AdvisorVerifyOutpass">OUTPASS</a></li>
+                <li><a href="/AdvisorVerifyOnduty">ONDUTY</a></li>
+            </ul>
+        </nav>
+        <img src="/kit.png" class="kitlogo" alt="Logo">
+        <h1 class="head_text">KIT-KALAIGNARKARUNANIDHI INSTITUTE OF TECHNOLOGY</h1>
+        <p class="head_status">
+                
+            <form>
+                <input type="text" class="search" name="search_input" placeholder="search">
+                <button class="search_btn">></button>
+                </form>
+        </p>
+
+        <a href="/DataBase" class="head_history" >DataBase</a>
+        <a href="/" class="head_contact">Home</a>
+    </header>
+    <div class="back"></div>
+    <section>
+        <div class="card-content">
+            <div class="register-title">
+                <h2>Requests For OnDuty </h2>
+                <div class="line"></div>
+                <% if (students.length > 0) { %>
+    
+                    <% } else { %>
+                        <p class="head">No data available</p>
+                    <% } %>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Register Number</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Parent Contact Number</th>
+                        <th>Purpose Of Onduty</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Reject</th>
+                        <th>accept</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.forEach(function(student) { %>
+                    <tr>
+                        <td><%= student.student_name %></td>
+                        <td><%= student.register_number %></td>
+                        <td><%= student.department %></td>
+                        <td><%= student.year %></td>
+                        <td><%= student.parent_conduct_number %></td>
+                        <td><%= student.purpose_of_outpass %></td>
+                        <td><%= student.from_date %></td>
+                        <td><%= student.to_date %></td>
+                        <td>
+                            <form action="/AdvisorVerifyOnduty" method="post">
+                                <input type="hidden" name="S_Id" value="<%= student._id %>">
+                                <input type="hidden" name="status" value="<%= student.status %>">
+                                <button type="submit" class="reject-button" name="rejected_btn" value="reject">Reject</button>
+                            </form></td>
+                           <td> <form action="/AdvisorVerifyOnduty" method="post">
+                                <input type="hidden" name="S_Id" value="<%= student._id %>">
+                                <input type="hidden" name="status" value="<%= student.status %>">
+                                <button type="submit" class="accept-button" name="Approv_btn" value="accept">Approve</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+</body>
+</html>

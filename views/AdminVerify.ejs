@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests For Outpass</title>
+    <link rel="stylesheet" href="/css-admin-verify.css">
+</head>
+<body>
+    <header class="header">
+        <img src="/kit.png" class="kitlogo" alt="Logo">
+        <h1 class="head_text">KIT-KALAIGNARKARUNANIDHI INSTITUTE OF TECHNOLOGY</h1>
+        <p class="head_status">
+                
+            <input type="text" class="search"  name="search_input" placeholder="search">
+            <button class="search_btn">></button>
+        </p>
+
+        <a href="/DataBase" class="head_history" >DataBase</a>
+        <a href="/" class="head_contact">Home</a>
+    </header>
+    <div class="back"></div>
+    <section>
+        <div class="card-content">
+            <div class="register-title">
+                <h2>Requests For Outpass </h2>
+                <div class="line"></div>
+                <% if (students.length > 0) { %>
+    
+                    <% } else { %>
+                        <p class="head">No data available</p>
+                    <% } %>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Register Number</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Purpose Of Outpass</th>
+                        <th>Parent Contact Number</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Reject</th>
+                        <th>accept</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.forEach(function(student) { %>
+                    <tr>
+                        <td><%= student.student_name %></td>
+                        <td><%= student.register_number %></td>
+                        <td><%= student.department %></td>
+                        <td><%= student.year %></td>
+                        <td><%= student.purpose_of_outpass %></td>
+                        <td><%= student.parent_conduct_number %></td>
+                        <td><%= student.from_date %></td>
+                        <td><%= student.to_date %></td>
+                        <td>
+                            <form action="/AdminVerify" method="post">
+                                <input type="hidden" name="S_Id" value="<%= student._id %>">
+                                <input type="hidden" name="status" value="<%= student.status %>">
+                                <button type="submit" class="reject-button" name="rejected_btn" value="reject">Reject</button>
+                            </form></td>
+                           <td> <form action="/AdminVerify" method="post">
+                                <input type="hidden" name="S_Id" value="<%= student._id %>">
+                                <input type="hidden" name="status" value="<%= student.status %>">
+                                <button type="submit" class="accept-button" name="Approv_btn" value="accept">Exited</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+</body>
+</html>

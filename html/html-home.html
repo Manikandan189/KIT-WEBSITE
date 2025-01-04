@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css-home.css">
+    <script src="/js-home.js" defer></script>
+    <script src="/js-register.js" defer></script>
+</head>
+
+<body>
+    <header class="header">
+        <img src="/kit.png" class="kitlogo" alt="Logo">
+        <h1 class="head_text">KIT-KALAIGNARKARUNANIDHI INSTITUTE OF TECHNOLOGY</h1>
+        <p class="head_status" id="status">Status</p>
+        <div class="status_box" id="statuspop">
+            <form>
+                <div class="register-title-back">
+                    <h2>Status</h2>
+                </div>
+                <p class="search_text">Register-Number</p>
+                <input type="text" class="search" name="track" placeholder="711521BCS026" required><br>
+                <button type="submit" class="track_btn" id="sub" onclick="statusMessage()">Track</button>
+            </form>
+        </div>
+
+        <p class="head_history" id="history">History</p>
+        <div class="history_box" id="historypop">
+            <form>
+                <div class="register-title-back">
+                    <h2>History</h2>
+                </div>
+                <p class="history_search_text">Register-Number</p>
+                <input type="text" class="history" name="history" placeholder="711521BCS026" required><br>
+                <button type="submit" class="history_btn" onclick="historyview(event)">History</button>
+            </form>
+        </div>
+
+        <p class="head_contact" id="contact">Contact</p>
+    </header>
+
+    <div class="back"></div>
+    <div id="card" class="card1">
+        <div class="log">Login as</div>
+        <div class="log-border"></div>
+        <div class="card-content">
+            <button class="staff" onclick="window.location.href='/Departments'"></button>
+            <button class="student" onclick="window.location.href='/StudentLogin'"></button>
+            <button class="principal" onclick="window.location.href='/PrincipalLogin'"></button>
+            <button class="admin" onclick="window.location.href='/AdminLogin'"></button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3 class="logo-text">About Website</h3>
+                    <p>Streamline Pass requests digitally, eliminating paperwork for a more efficient process.</p>
+                </div>
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="https://portal.kitcbe.com/">Kit-Portal</a></li>
+                        <li><a href="https://kit.learnlogicify.com/login/index.php">Kit-Placement Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-phone"></i> &nbsp; 7395851198</p>
+                    <p><i class="fas fa-envelope"></i> &nbsp; mani091m1@gmail.com</p>
+                </div>
+                <div class="footer-section social">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="mailto:mani091m1@gmail.com"><img src="/mail.png" alt="Email"></a>
+                        <a href="https://www.linkedin.com/in/mani091" target="_blank"><img src="/linkedin.png" alt="LinkedIn"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 KitWebsite.com | All rights reserved
+        </div>
+      </div>
+      <div class="non-desktop-message">
+        This site is best viewed on a desktop. Please use a computer for an optimal experience.
+      </div>
+      
+
+</body>
+
+</html>

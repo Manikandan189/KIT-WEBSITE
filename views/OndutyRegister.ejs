@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="/css-register.css">
+    <script src="/js-register.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="side-menu" class="side-menu">
+            <img src="/kit.png" class="kitlogoSideBar" alt="Logo">
+            <ul>
+                <li><a href="/Register">HOMEPASS</a></li>
+                <li><a href="/OutpassRegister">OUTPASS</a></li>
+                <li><a href="/OndutyRegister">ONDUTY</a></li>
+            </ul>
+        </nav>
+        <img src="/kit.png" class="kitlogo" alt="Logo">
+        <h1 class="head_text">KIT-KALAIGNARKARUNANIDHI INSTITUTE OF TECHNOLOGY</h1>
+        <p class="head_status" onclick="window.location.href='/'">Home</p>
+        <p class="head_history">History</p>
+        <p class="head_contact">Contact Us</p>
+    </header>
+    
+    <div class="background"></div>
+    <section class="card-container">
+        <div class="card-content" id="card">
+            <div class="front">
+                <div class="register-title">
+                    <h2>ONDUTY REQUEST FORM</h2>
+                    <div class="line"></div>
+                </div>
+                <form method="post" onsubmit="handleRegister(event)">
+                    <label class="name">Name<span>*</span><br>
+                        <input type="text" id="name_val" class="input-box" name="student_name" placeholder="<%= user.firstName_S %> <%= user.lastName_S %>"readonly/><br>
+
+                        <div class="border"></div><br>
+                    </label>
+                    <label class="register_no">Register Number<span>*</span><br>
+                        <input type="text" id="rno_val" class="input-box" name="register_number" placeholder="<%=user.registerNumber_S %>" readonly/><br>
+                        <div class="border"></div><br>
+                    </label>
+                
+
+                    <label class="year">Year<span>*</span></label>
+                    <input type="text" id="year_val" class="input-box" name="year" placeholder="<%=user.year_S %>" readonly/><br>
+                    <div class="border"></div><br>
+                    <label class="dept">Department<span>*</span></label>
+                    <input type="text" id="dept_val" class="input-box" name="department" placeholder="<%=user.department_S %>" readonly/><br>
+                    <div class="border"></div><br>
+                    <label class="parent_pno">Parents Contact-Number<span>*</span><br>
+                        <input type="tel" id="parent_pno_val" class="input-box" name="parent_conduct_number" placeholder="<%=user.phoneNumber_S %>" readonly><br>
+                        <div class="border"></div><br>
+                    </label>
+                    <label class="purpose">Purpose Of ONDUTY<span>*</span><br>
+                        <input type="text" id="purpose_val" class="input-box" name="purpose_of_outpass" ><br>
+                        <div class="border"></div><br>
+                    </label>
+                    <label class="from_date">From Date and time<span>*</span><br><br>
+                        <input type="datetime-local" id="from_date_val" class="date-input-box" name="from_date" ><br><br>
+                        <div class="border"></div><br>
+                    </label>
+                    <label class="to_date">To Date and time<span>*</span><br><br>
+                        <input type="datetime-local" id="to_date_val" class="date-input-box" name="to_date" ><br><br>
+                        <div class="border"></div><br>
+                    </label>
+                    <input type="hidden" name="type" value="onduty">
+                    <button class="submit" type="submit" id="sub">Submit</button>
+                </form>
+            </div>
+            </div>
+                <div class="back">
+                    <div class="box">
+                        <div class="status_box">
+                            <form>
+                                <div class="register-title-back">
+                                    <h2>Status</h2>
+                                </div>
+                                <p class="search_text"> Register-Number</p>
+                                <input type="text" class="search" name="track" placeholder="711521BCS026" required><br>
+                                <button class="track_btn" type="submit" id="sub" onclick="statusMessage()">Track</button>
+                            </form>
+                        </div>
+                        <div class="history_box">
+                            <form>
+                                <div class="register-title-back">
+                                    <h2>History</h2>
+                                </div>
+                                <p class="history_search_text"> Register-Number</p>
+                                <input type="text" class="history" name="history" placeholder="711521BCS026" required><br>
+                                <button class="history_btn" type="submit" onclick="historyview(event)">History</button>
+                            </form>
+                        </div>
+                    </div>
+                    <footer>
+                        <section class="contact-section">
+                            <h2 class="foot_con">Feed Back</h2>
+                            <div class="contact-form">
+                                <form>
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" required><br>
+                                    
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" required><br>
+                                    
+                                    <label for="message">Message</label>
+                                    <input id="message" name="message" required><br>
+                                    
+                                    <button type="submit">Send</button>
+                                </form>
+                            </div>
+                        </section>
+                        <section class="developer_details">
+                            <!-- <img src="/mail.png" class="image" id="mail" alt="Email">
+                            <img src="/linkedin.png" class="image" alt="LinkedIn">
+                            <img src="/phone.png" class="image" alt="Phone"> -->
+                        </section>
+                    </footer>
+                </div>
+                <!-- <div class="card_ad">i want to access right side of the registration form</div> -->
+            </div>
+            
+        
+    </section>
+    <div class="footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section about">
+              <h3 class="logo-text">About Website</h3>
+              <p>
+                Streamline outpass requests digitally, eliminating paperwork for a more efficient process.
+              </p>
+            </div>
+            <div class="footer-section links">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="https://portal.kitcbe.com/">Kit-Portal</a></li>
+                <li><a href="https://kit.learnlogicify.com/login/index.php">Kit-PlaceMent Portal</a></li>
+                <!-- <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Blog</a></li> -->
+              </ul>
+            </div>
+            <div class="footer-section contact">
+              <h3>Contact Us</h3>
+              <p><i class="fas fa-phone"></i> &nbsp; 7395851198</p>
+              <p><i class="fas fa-envelope"></i> &nbsp; mani091m1@gmail.com</p>
+            </div>
+            <div class="footer-section social">
+              <h3>Follow Us</h3>
+              <div class="social-links">
+                <!-- <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a> -->
+                <a href="mailto:mani091m1@gmail.com">
+                    <img src="/mail.png" alt="Email">
+                  </a>
+                  
+                <a href="https://www.linkedin.com/in/mani091" target="_blank">
+                    <img src="/linkedin.png" alt="LinkedIn">
+                  </a>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          &copy; 2024 Kitwebsite.com | All rights reserved
+        </div>
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,74 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css-security-verify.css">
+    <title>Other Page</title>
+</head>
+<body>
+    <div class="back"></div>
+    <section>
+        <div class="card-content">
+            <div class="register-title">
+                <h3>Accepted Student Informations</h3>
+                <div class="line"></div>
+            </div>
+
+
+
+
+            <div class="info-card">
+               
+            <div class="content" id="studentInfo"></div>
+            
+            <div class="buttons">
+                    <button class="reject-button" onclick="reject()">Reject</button>
+                    <button class="accept-button" onclick="exited()">Exited</button>
+                    </div>
+                </div>
+        </div>
+    </section>
+   
+    </body>
+    </html>
+    
+    <script>
+        var acceptedStudent = JSON.parse(localStorage.getItem('acceptedStudent'));
+        var studentName = acceptedStudent.student_name;
+        var registerNumber = acceptedStudent.register_number; 
+        var department = acceptedStudent.department;
+        var year = acceptedStudent.year;
+        var purpose = acceptedStudent.purpose_of_outpass;
+        var parent = acceptedStudent.parent_conduct_number;
+        var from = acceptedStudent.from_date;
+        var to = acceptedStudent.to_date;
+        var studentInfoElement = document.getElementById('studentInfo');
+        
+        studentInfoElement.innerHTML = `
+            <p>Name: <b>${studentName}</b></p>
+            <p>Register Number:<b> ${registerNumber}</b></p>
+            <p>Department: <b>${department}</b></p>
+            <p>Year: ${year}</p>
+            <p>Purpose Of Outpass: ${purpose}</p>
+            <p>Parent Contact Number: ${parent}</p>
+            <p>From Date: ${from}</p>
+            <p>To Date: ${to}</p>
+            
+        `;
+
+
+        function exited()
+        {
+            alert("Student Information Stored In DataBase");
+        }
+        function reject()
+        {
+            var info=document.querySelector('.info-card');
+            info.parentNode.removeChild(info);
+            alert("Outpass Expired");
+        }
+    </script>
+</body>
+</html>
+ -->

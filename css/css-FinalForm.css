@@ -1,0 +1,38 @@
+.a4-container {
+    width: 100%;
+    max-width: 210mm; 
+    aspect-ratio: 1 / 1.414;
+    border: 1px solid #000;
+    margin: auto;
+}
+.logo
+{
+    margin-top: 60px;
+    margin-left: 30px;
+    height: 7vh;
+    width: fit-content;
+}
+.head
+{
+    margin-top: 50px;
+     margin-left: 10px;
+     margin-right: 60px;
+}
+label{
+    margin-top: 50px;
+    margin-left: 10px;
+    margin-right: 60px;
+}
+.headingdiv
+{
+    display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Left-align logo and heading */
+            padding-bottom: 20px;
+            border-bottom: 1px solid #000;
+}
+span{
+    font-size: large;
+    font-weight: bolder;
+    
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        form {
+            width: 50%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form action="/EditAccount/<%= account._id %>" method="POST">
+        <h1>Edit Account</h1>
+        <label for="first_name_R">First Name</label>
+        <input type="text" name="first_name_R" id="first_name_R" value="<%= account.first_name_R %>" required>
+
+        <label for="last_name_R">Last Name</label>
+        <input type="text" name="last_name_R" id="last_name_R" value="<%= account.last_name_R %>" required>
+
+        <label for="email_id_R">Email</label>
+        <input type="email" name="email_id_R" id="email_id_R" value="<%= account.email_id_R %>" required>
+
+        <label for="phone_number_R">Phone Number</label>
+        <input type="text" name="phone_number_R" id="phone_number_R" value="<%= account.phone_number_R %>" required>
+
+        <label for="department_R">Department</label>
+        <input type="text" name="department_R" id="department_R" value="<%= account.department_R %>" required>
+
+        <label for="create_password_R">Password</label>
+        <input type="text" name="create_password_R" id="create_password_R" value="<%= account.create_password_R %>" required>
+
+        <button type="submit">Update Account</button>
+    </form>
+</body>
+</html>

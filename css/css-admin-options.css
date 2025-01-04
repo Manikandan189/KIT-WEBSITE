@@ -1,0 +1,40 @@
+/* General button styles */
+button {
+    margin: 10px 5px;
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Button hover and active effects */
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #388E3C;
+    transform: translateY(2px);
+}
+
+/* Button alignment container */
+.button-container {
+    display: flex;
+    justify-content: center; /* Centers buttons horizontally */
+    align-items: center; /* Aligns buttons vertically */
+    gap: 10px; /* Adds space between buttons */
+    margin-top: 20px;
+}
+
+/* Responsive button adjustments */
+@media (max-width: 768px) {
+    button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}

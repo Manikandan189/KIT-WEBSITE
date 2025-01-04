@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="/css-login-register.css">
+    <script src="/js-login-register.js"></script>
+</head>
+<body>
+    <header class="header">
+        
+        <img src="/kit.png" class="kitlogo" alt="Logo">
+        <h1 class="head_text">KIT-KALAIGNARKARUNANIDHI INSTITUTE OF TECHNOLOGY</h1>
+        <p class="head_status" onclick="window.location.href='/'">Home</p>
+        <p class="head_history">History</p>
+        <p class="head_contact">contact Us</p>
+    </header>
+    <div class="back"></div>
+    <section><div class="card-content">
+    <div class="register-title">
+        <h2>Student Registration</h2>    
+    <div class="line"></div></div>
+    <form action="/LoginRegister" method="POST" class="form">
+        <div class="grid">
+    <label class="image-upload">Upload Image</br>
+        <input type="file" id="image-upload-val" class="input-box" name="image_R" accept="image/*" >
+        </label>
+    <label class="first-name">First Name<span>*</span></br>
+        <input type="text" id="first-name-val" class="input-box" name="first_name_R" required></br>
+        <div class="border"></div></br>
+    </label>
+    <label class="last-name">Last Name<span>*</span></br>
+        <input type="text" id="last-name-val" class="input-box" name="last_name_R" required></br>
+        <div class="border"></div></br>
+    </label>
+    <label class="email-id">Enter Email Id<span>*</span></br>
+        <input type="email" id="email-id-val" class="input-box" name="email_id_R" required></br>
+        <div class="border"></div></br>
+    </label>
+    <label class="create-pass">Create Password<span>*</span></br>
+        <input type="password" id="create-pass-val" class="input-box" name="create_password_R" required></br>
+        <div class="border"></div></br>
+    </label>
+    <label class="reenter-pass">Re-Enter Password<span>*</span></br>
+        <input type="password" id="reenter-pass-val" class="input-box" name="re_password_R" required></br>
+        <div class="border"></div></br>
+    </label>
+        <label class="reg_num">Register Number<span>*</span></br>
+            <input type="text" id="register-number" class="input-box" name="register_number_R" required></br>
+            <div class="border"></div></br>
+        </label>
+    <label class="phone-number">Phone Number<span>*</span></br>
+        <input type="tel" id="phone-number-val" class="input-box" name="phone_number_R" required></br>
+        <div class="border"></div></br>
+    </label>
+    <label class="department">Department<span>*</span>
+    <select class="selectopt" name="department_R" id="department-val" required>
+        <optgroup label="UG Departments">
+            <option></option>
+            <option class="opt_cse">CSE</option>
+            <option class="opt_aero">AERO</option>
+            <option class="opt_csbs">CSBS</option>
+            <option class="opt_aids">AIDS</option>
+            <option class="opt_eee">EEE</option>
+            <option class="opt_ece">ECE</option>
+            <option class="opt_biomed">BIOMED</option>
+            <option class="opt_mech">MECH</option>
+            <option class="opt_agri">AGRI</option>
+            <option class="opt_biotech">BIOTECH</option>
+            <option></option>
+        </optgroup>
+        <optgroup label="PG Departments">
+            <option class="opt_mca">MCA</option>
+            <option class="opt_mba">MBA</option>
+        </optgroup>
+    </select><br><br>
+    <div class="border"></div><br>
+    </label>
+    <!-- <label class="department">Department<span>*</span></br>
+        <input type="text" id="department-val" class="input-box" name="department_R" required></br>
+        <div class="border"></div></br>
+    </label> -->
+    <label class="year">Year<span>*</span></br>
+    <select class="input-box" id="year_val" name="year_R" required>
+        <option></option>
+        <option class="opt_cse">I</option>
+        <option class="opt_aero">II</option>
+        <option class="opt_csbs">III</option>
+        <option class="opt_csbs">IV</option>
+    </select><br><br>
+        <div class="border"></div></br>
+    </label>
+    <label class="address">Address<span>*</span></br>
+        <textarea id="address-val" class="input-box" name="address_R" required></textarea></br>
+        <div class="border"></div></br>
+    </label>
+    </div>
+    <button class="submit" onclick="alertmsg()" type="submit">Register</button>
+    </form>
+    </div>
+    </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+  <title>Card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css-staff-login.css">
+  <script src="/js-staff-login.js"></script>
+</head>
+
+<body>
+ <div class="back"></div>
+ <div id="container">
+  <img src="/kitcollegeN.png" class="kitcollege" alt="College Logo">
+  
+  <div id="card" >
+    <div id="card-content">
+      <div id="card-title">
+        <img src="/kit.png" class="kit" alt="College Logo">
+      </div>
+      <form method="post" class="form">
+        <label for="user-email" style="padding-top:13px" class="tit">
+            &nbsp;Email
+          </label>
+        <input id="staff_email" class="form-content" type="email" name="staff_email" autocomplete="on" required />
+        <div class="form-border"></div>
+        <label for="user-password" style="padding-top:22px" class="tit"> &nbsp;Password
+          </label>
+        <input id="staff_password" class="form-content" type="password" name="staff_password" required />
+        <div class="form-border"></div>
+        <a href="#">
+          <legend id="forgot-pass">Forgot password?</legend>
+        </a>
+        <input id="submit-btn" type="submit" name="submit" onclick="process()" value="LOGIN" />
+        <!-- <a href="/LoginRegister" id="signup">Don't have account yet?</a> -->
+      </form>
+      </div>
+      </div>
+      
+</body>
+
+</html>
