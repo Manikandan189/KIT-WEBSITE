@@ -1,6 +1,5 @@
 const mongoose=require('mongoose')
 const express=require('express')
-const fs = require('fs');
 const QRCode = require('qrcode');
 const bodyParser=require('body-parser')
 const path=require('path')
@@ -230,7 +229,9 @@ app.get('/AdvisorLogin', (req, res) => {
 app.post('/AdvisorLogin',async (req,res)=>{
     try{
         const{advisor_email ,advisor_password}=req.body;
-        if(advisor_email==="advisor@gmail.com" && advisor_password==="1")
+        console.log(advisor_email,"===",process.env.advisorEmail);
+        console.log(advisor_password,"=====",process.env.advisorPassword);
+        if(advisor_email===process.env.advisorEmail && advisor_password===process.env.advisorPassword)
         res.redirect('/AdvisorVerify')
     }
     catch(error){
@@ -245,8 +246,8 @@ app.get('/StaffLogin', (req, res) => {
 app.post('/StaffLogin',async (req,res)=>{
     try{
         const{staff_email ,staff_password}=req.body;
-        if(staff_email==="rajamohamad@gmail.com" && staff_password==="raja")
-        res.redirect('/StaffVerify')
+        if(staff_email===process.env.hodEmail && staff_password===process.env.hodPassword)
+        res.redirect('/StaffVerify');
     }
     catch(error){
         res.redirect('/StaffLogin')
@@ -260,13 +261,12 @@ app.get('/PrincipalLogin', (req, res) => {
 app.post('/PrincipalLogin',async (req,res)=>{
     try{
         const{principal_email ,principal_password}=req.body;
-        if(principal_email==="principal@gmail.com" && principal_password==="1970")
+        if(principal_email===process.env.principalEmail && principal_password===process.env.principalPassword)
         res.redirect('/PrincipalVerify')
     }
     catch(error){
         res.redirect('/PrincipalLogin')
     }
-
 });
 //SecurityLogin
 app.get('/AdminLogin', (req, res) => {
@@ -275,7 +275,7 @@ app.get('/AdminLogin', (req, res) => {
 app.post('/AdminLogin',async (req,res)=>{
     try{
         const{security_email ,security_password}=req.body;
-        if(security_email==="admin@gmail.com" && security_password==="2660")
+        if(security_email===process.env.adminEmail && security_password===process.env.adminPassword)
         res.redirect('/Admin_options')
     }
     catch(error){
