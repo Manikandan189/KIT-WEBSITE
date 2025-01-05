@@ -418,6 +418,7 @@ body, html {
   .side-menu ul li {
     padding: 15px 20px;
     border-bottom: 1px solid #f1f1f1;
+    position: relative; /* This allows absolute positioning of the badge */
   }
   
   .side-menu ul li a {
@@ -445,3 +446,23 @@ body, html {
     margin-left: 30%;
     margin-bottom: 30px;
   }
+  
+ 
+  
+  .notification-badge {
+    background-color: rgb(191, 3, 3);
+    margin-top: 10px;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 14px;
+    position: absolute; /* Position it inside the list item */
+    top: 5px;           /* Move the badge up */
+    right: 5px;         /* Move it to the top-right corner */
+    width: auto;    /* Minimum width for the circle */
+    height: 15px;       /* Height of the circle */
+    display: flex;      /* Flexbox for centering the text */
+    align-items: center;
+    justify-content: center;
+  }
+  

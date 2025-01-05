@@ -8,8 +8,6 @@ const PDFDocument = require('pdfkit');
 const session = require('express-session');
 const {Account,Database,ToDatabase,Feedback}=require('./schema-mongo');
 require('dotenv').config({path: './ImportantLinks.env'});
-const MongoClient= require('mongoose');
-
 
 const app=express()
 app.set('view engine', 'ejs');
@@ -19,15 +17,6 @@ app.use(express.static('css'));
 app.use(express.static('js'));
 app.use(express.static('img'));
 
-
-
-// const client = new MongoClient(process.env.uri, {
-//     serverApi: {
-//       strict: true,
-//       deprecationErrors: true,
-//     }
-//   });
-  
 async function run() {
     try {
       // Connect to MongoDB
@@ -42,34 +31,11 @@ async function run() {
   run();
 
 app.use(session({
-    secret: 'your_secret_key',
+    secret: 'ChangeLaterNoNeedNow',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }    
 }));
-
-
-
-// app.get('/Form', async (req, res) => {
-//     try {
-//         const student=await Database.find({ status: "principal" ,type:"outpass"}).exec(); 
-//         res.render('FinalForm', {student});
-//     } catch (err) {
-//         res.status(500).send(err);
-//     }
-// });
-
-
-
-// const qrDir = path.join(__dirname, 'qr_codes');
-// if (!fs.existsSync(qrDir)) {
-//     fs.mkdirSync(qrDir);
-// }
-
-
-
-
-
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'html','html-home.html'));
@@ -120,17 +86,13 @@ app.get('/Database', async (req, res) => {
 // Make the route handler async
 app.get('/Accounts', async (req, res) => {
     try {
-        // Fetch all accounts from the database
         const Acc = await Account.find();
-        
-        // Render the 'Accounts' template and pass the data
         res.render('Accounts', { accounts: Acc });
     } catch (error) {
         console.error("Error fetching accounts:", error);
         res.status(500).json({ message: "Error fetching accounts" });
     }
 });
-
 
 app.get('/EditAccount/:id', async (req, res) => {
     try {
@@ -148,8 +110,6 @@ app.get('/EditAccount/:id', async (req, res) => {
 app.post('/EditAccount/:id', async (req, res) => {
     try {
         const { first_name_R, last_name_R, email_id_R, phone_number_R, department_R, create_password_R } = req.body;
-
-        // Update account details
         await Account.findByIdAndUpdate(req.params.id, {
             first_name_R,
             last_name_R,
@@ -165,12 +125,6 @@ app.post('/EditAccount/:id', async (req, res) => {
         res.status(500).send("Error updating account");
     }
 });
-
-
-
-
-
-
 
 app.get('/ChangePassword', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-forgotPassword.html'));
@@ -197,16 +151,6 @@ app.post('/ChangePassword', async (req, res) => {
         res.status(500).json({ message: "An error occurred while updating the password!" });
     }
 });
-
-
-
-
-
-
-
-
-
-
 //LoginRegister
 app.get('/LoginRegister', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-login-register.html'));
@@ -215,19 +159,13 @@ app.get('/LoginRegister', (req, res) => {
 app.post('/LoginRegister', async (req, res) => {
     try {
         const { image_R, first_name_R, last_name_R, email_id_R, create_password_R, re_password_R, register_number_R, phone_number_R, department_R, year_R, address_R } = req.body;
-        
-        // Check for password match
         if (create_password_R !== re_password_R) {
             return res.status(400).json({ message: "Passwords do not match" });
         }
-        // Check if user already exists
         const existingUser = await Account.findOne({ email_id_R });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
         }
-        
-        
-        // Create new user
         const newUser = new Account({
             image_R,
             first_name_R,
@@ -239,11 +177,7 @@ app.post('/LoginRegister', async (req, res) => {
             department_R,
             year_R,
             address_R,
-
         });
-      
-
-        // Save new user
         await newUser.save();
         res.redirect('/StudentLogin');
 
@@ -253,18 +187,7 @@ app.post('/LoginRegister', async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-//StudentLogin
+//Studentlogin
 app.get('/StudentLogin', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-student-login.html'));
 });
@@ -300,14 +223,6 @@ app.post('/StudentLogin', async (req, res) => {
         res.status(500).json({ message: "Error logging in", error: error.message });
     }
 });
-
-
-
-
-
-
-
-
 //Advisorlogin
 app.get('/AdvisorLogin', (req, res) => {
     res.sendFile(path.join(__dirname,'html', 'html-advisor-login.html'));
@@ -315,7 +230,7 @@ app.get('/AdvisorLogin', (req, res) => {
 app.post('/AdvisorLogin',async (req,res)=>{
     try{
         const{advisor_email ,advisor_password}=req.body;
-        if(advisor_email==="advisor@gmail.com" && advisor_password==="12345")
+        if(advisor_email==="advisor@gmail.com" && advisor_password==="1")
         res.redirect('/AdvisorVerify')
     }
     catch(error){
@@ -323,14 +238,6 @@ app.post('/AdvisorLogin',async (req,res)=>{
     }
 
 });
-
-
-
-
-
-
-
-
 //stafflogin
 app.get('/StaffLogin', (req, res) => {
     res.sendFile(path.join(__dirname,'html', 'html-staff-login.html'));
@@ -346,15 +253,6 @@ app.post('/StaffLogin',async (req,res)=>{
     }
 
 });
-
-
-
-
-
-
-
-
-
 //PrincipalLogin
 app.get('/PrincipalLogin', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-principal-login.html'));
@@ -370,14 +268,6 @@ app.post('/PrincipalLogin',async (req,res)=>{
     }
 
 });
-
-
-
-
-
-
-
-
 //SecurityLogin
 app.get('/AdminLogin', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-admin-login.html'));
@@ -394,31 +284,10 @@ app.post('/AdminLogin',async (req,res)=>{
 
 })
 
-
 //login page and login register page completed above
-
-
-
-
-
-
-
-
-
-
-
 app.get('/Who', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-who.html'));
 });
-
-
-
-
-
-
-
-//OutpassRegister:
-// Render the registration form page
 app.get('/Register', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/StudentLogin');
@@ -426,34 +295,18 @@ app.get('/Register', (req, res) => {
     res.render('html-register', { user: req.session.user });
 });
 
-
-
 app.get('/OutpassRegister', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/StudentLogin');
     }
     res.render('OutpassRegister', { user: req.session.user });
 });
-
-
-
 app.get('/OndutyRegister', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/StudentLogin');
     }
     res.render('OndutyRegister', { user: req.session.user });
 });
-
-
-
-
-
-
-
-
-
-
-
 // Handle the form submission
 app.post('/Register', async (req, res) => {
     try {
@@ -465,19 +318,22 @@ app.post('/Register', async (req, res) => {
         const { firstName_S, lastName_S, registerNumber_S, year_S, department_S, address_S, phoneNumber_S, image_S } = req.session.user;
 
         console.log("Type of outpass requested:", type);
+        let count=1;
 
         // Check if a record with the same register number and type 'homepass' exists
         const existingRecord = await Database.findOne({
             register_number: registerNumber_S,
-            parent_conduct_number: phoneNumber_S
+            parent_conduct_number: phoneNumber_S,
+            type:type
         });
         
-
+        
         if (existingRecord) {
+            count=existingRecord.count+1;
             console.log("Existing record found, deleting...");
-            await Database.deleteOne({ register_number: registerNumber_S ,parent_conduct_number: phoneNumber_S});
+            await Database.deleteOne({ register_number: registerNumber_S ,parent_conduct_number: phoneNumber_S,type:type});
         }
-
+          
         // Create a new record for the student's outpass request
         const newstu = new Database({
             student_name: `${firstName_S} ${lastName_S}`,
@@ -492,6 +348,7 @@ app.post('/Register', async (req, res) => {
             status: "advisor", // Initial status
             type: type,        // Type of pass
             image: image_S,    // Student image
+            count:count
         });
 
         // Save student request
@@ -503,20 +360,6 @@ app.post('/Register', async (req, res) => {
         return res.status(500).json({ success: false, message: "Error registering user", error: error.message });
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //staffverify section
 let dept=" ";
 app.post('/StaffVerify1', async (req, res) => {
@@ -528,15 +371,7 @@ app.post('/StaffVerify1', async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
-
-
-
-
 //Advisor verify section
-
-
-
 app.get('/AdvisorVerify', async (req, res) => {
     try {
         const search = req.query.search_input;
@@ -559,15 +394,22 @@ app.get('/AdvisorVerify', async (req, res) => {
         } else {
             students = await Database.find({  department: dept.toUpperCase(),status: 'advisor', type: 'homepass' }).exec();
         }
-    
-        res.render('AdvisorVerify', { students: students });
+        let homepassCount=0,outpassCount=0,ondutypassCount=0;
+        try{
+        homepassCount = await Database.countDocuments({type: 'homepass',department: dept.toUpperCase(),status:'advisor',});
+        outpassCount = await Database.countDocuments({type: 'outpass',department: dept.toUpperCase(),status:'advisor',});
+        ondutypassCount = await Database.countDocuments({type: 'onduty',department: dept.toUpperCase(),status:'advisor', });
+        }
+        catch{
+            console.log("Error counting database");
+        }
+        res.render('AdvisorVerify', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     } catch (err) {
         console.error(err);
         res.status(500).send("Internal Server Error");
     }
     
 });
-
 app.post('/AdvisorVerify', async (req, res) => {
     try {
         const {rejected_btn, Approv_btn, S_Id,status } = req.body;
@@ -576,37 +418,19 @@ app.post('/AdvisorVerify', async (req, res) => {
             if (!student) {
                 return res.status(404).json({ message: 'Student not found' });
             }
-
            student.status="hod";
            await student.save();
-           console.log(student.parent_conduct_number);
-           const studentPhoneNumber =student.parent_conduct_number;
-console.log(studentPhoneNumber);
-const studentName = student.student_name;
-
         }
         if (rejected_btn==="reject" && S_Id) {
             const deleteResult = await Database.deleteOne({ _id: S_Id });
             console.log('Delete Result:', deleteResult); 
         }
-    
-
         res.redirect('/AdvisorVerify');
     } catch (error) {
         console.error('Error processing request:', error);
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-
-
-
-
-
-
-
-
-
-
 app.get('/AdvisorVerifyOutpass', async (req, res) => {
     try {
         const search = req.query.search_input;
@@ -627,14 +451,21 @@ app.get('/AdvisorVerifyOutpass', async (req, res) => {
         } else {
             students = await Database.find({department: dept.toUpperCase(), status: 'advisor', type: 'outpass' }).exec();
         }
-    
-        res.render('AdvisorVerifyOutpass', { students: students });
+        let homepassCount=0,outpassCount=0,ondutypassCount=0;
+        try{
+        homepassCount = await Database.countDocuments({type: 'homepass',department: dept.toUpperCase(),status:'advisor',});
+        outpassCount = await Database.countDocuments({type: 'outpass',department: dept.toUpperCase(),status:'advisor',});
+        ondutypassCount = await Database.countDocuments({type: 'onduty',department: dept.toUpperCase(),status:'advisor', });
+        }
+        catch{
+            console.log("Error counting database");
+        }
+        res.render('AdvisorVerifyOutpass', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     } catch (err) {
         console.error(err);
         res.status(500).send("Internal Server Error");
     }
 });
-
 app.post('/AdvisorVerifyOutpass', async (req, res) => {
     try {
         const {rejected_btn, Approv_btn, S_Id,status } = req.body;
@@ -659,12 +490,6 @@ app.post('/AdvisorVerifyOutpass', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-
-
-
-
-
-
 app.get('/AdvisorVerifyOnduty', async (req, res) => {
     try {
         const search = req.query.search_input;
@@ -685,9 +510,16 @@ app.get('/AdvisorVerifyOnduty', async (req, res) => {
         } else {
             students = await Database.find({department: dept.toUpperCase(), status: 'advisor', type: 'onduty' }).exec();
         }
-    
-
-        res.render('AdvisorVerifyOnduty', { students: students });
+        let homepassCount=0,outpassCount=0,ondutypassCount=0;
+        try{
+        homepassCount = await Database.countDocuments({type: 'homepass',department: dept.toUpperCase(),status:'advisor',});
+        outpassCount = await Database.countDocuments({type: 'outpass',department: dept.toUpperCase(),status:'advisor',});
+        ondutypassCount = await Database.countDocuments({type: 'onduty',department: dept.toUpperCase(),status:'advisor', });
+        }
+        catch{
+            console.log("Error counting database");
+        }
+        res.render('AdvisorVerifyOnduty', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     } catch (err) {
         console.error(err);
         res.status(500).send("Internal Server Error");
@@ -718,11 +550,6 @@ app.post('/AdvisorVerifyOnduty', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-
-
-
-
-
 //staffverify section
 app.get('/StaffVerify', async (req, res) => {
     try {
@@ -752,13 +579,16 @@ app.get('/StaffVerify', async (req, res) => {
                 type: 'homepass'
             }).exec();
         }
-        // If it's an AJAX request, return JSON data
-        // if (req.xhr) {
-        //     return res.json(students);
-        // }
-
-        // If it's a regular request (non-AJAX), render the page with students
-        res.render('StaffVerify', { students: students });
+        let homepassCount=0,outpassCount=0,ondutypassCount=0;
+        try{
+        homepassCount = await Database.countDocuments({type: 'homepass',department: dept.toUpperCase(),status:'hod',});
+        outpassCount = await Database.countDocuments({type: 'outpass',department: dept.toUpperCase(),status:'hod',});
+        ondutypassCount = await Database.countDocuments({type: 'onduty',department: dept.toUpperCase(),status:'hod', });
+        }
+        catch{
+            console.log("Error counting database");
+        }
+        res.render('StaffVerify', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     } catch (err) {
         console.error(err);
         res.status(500).send("Internal Server Error");
@@ -795,12 +625,6 @@ app.post('/StaffVerify', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-
-
-
-
-
-
 app.get('/StaffVerifyOutpass', async (req, res) => {
     try {
         const search = req.query.search_input; 
@@ -821,9 +645,16 @@ app.get('/StaffVerifyOutpass', async (req, res) => {
         } else {
             students = await Database.find({department: dept.toUpperCase(), status: 'hod', type: 'outpass' }).exec();
         }
-    
-
-        res.render('StaffVerifyOutpass', { students: students });
+        let homepassCount=0,outpassCount=0,ondutypassCount=0;
+        try{
+        homepassCount = await Database.countDocuments({type: 'homepass',department: dept.toUpperCase(),status:'hod',});
+        outpassCount = await Database.countDocuments({type: 'outpass',department: dept.toUpperCase(),status:'hod',});
+        ondutypassCount = await Database.countDocuments({type: 'onduty',department: dept.toUpperCase(),status:'hod', });
+        }
+        catch{
+            console.log("Error counting database");
+        }
+        res.render('StaffVerifyOutpass', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     } catch (err) {
         console.error(err);
         res.status(500).send("Internal Server Error");
@@ -856,13 +687,6 @@ app.post('/StaffVerifyOutpass', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-
-
-
-
-
-
-
 app.get('/StaffVerifyOnduty', async (req, res) => {
     try {
         const search = req.query.search_input; 
@@ -883,15 +707,21 @@ app.get('/StaffVerifyOnduty', async (req, res) => {
         } else {
             students = await Database.find({ department: dept.toUpperCase(),status: 'hod', type: 'onduty' }).exec();
         }
-    
-
-        res.render('StaffVerifyOnduty', { students: students });
+        let homepassCount=0,outpassCount=0,ondutypassCount=0;
+        try{
+        homepassCount = await Database.countDocuments({type: 'homepass',department: dept.toUpperCase(),status:'hod',});
+        outpassCount = await Database.countDocuments({type: 'outpass',department: dept.toUpperCase(),status:'hod',});
+        ondutypassCount = await Database.countDocuments({type: 'onduty',department: dept.toUpperCase(),status:'hod', });
+        }
+        catch{
+            console.log("Error counting database");
+        }
+        res.render('StaffVerifyOnduty', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     } catch (err) {
         console.error(err);
         res.status(500).send("Internal Server Error");
     }
 });
-
 app.post('/StaffVerifyOnduty', async (req, res) => {
     try {
         
@@ -918,20 +748,6 @@ app.post('/StaffVerifyOnduty', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //PrincipalVerify
 app.get('/PrincipalVerify', async(req, res) => {
     try{
@@ -953,8 +769,16 @@ app.get('/PrincipalVerify', async(req, res) => {
         else{
 students=await Database.find({  status: "principal" ,type:"homepass"}).exec(); 
             }
-        
-    res.render('PrincipalVerify', {students});
+            let homepassCount=0,outpassCount=0,ondutypassCount=0;
+            try{
+            homepassCount = await Database.countDocuments({type: 'homepass',status:'principal',});
+            outpassCount = await Database.countDocuments({type: 'outpass',status:'principal',});
+            ondutypassCount = await Database.countDocuments({type: 'onduty',status:'principal', });
+            }
+            catch{
+                console.log("Error counting database");
+            }
+            res.render('PrincipalVerify', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     }catch(err)
     {
         console.error(err);
@@ -1014,12 +838,6 @@ app.post('/PrincipalVerify', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-
-
-
-
-
-
 app.get('/PrincipalVerifyOutpass', async(req, res) => {
     try{
         const search = req.query.search_input;
@@ -1040,7 +858,16 @@ app.get('/PrincipalVerifyOutpass', async(req, res) => {
         {
             students=await Database.find({  status: "principal" ,type:"outpass"}).exec(); 
         }
-        res.render('PrincipalVerifyOutpass', {students});
+        let homepassCount=0,outpassCount=0,ondutypassCount=0;
+            try{
+            homepassCount = await Database.countDocuments({type: 'homepass',status:'principal',});
+            outpassCount = await Database.countDocuments({type: 'outpass',status:'principal',});
+            ondutypassCount = await Database.countDocuments({type: 'onduty',status:'principal', });
+            }
+            catch{
+                console.log("Error counting database");
+            }
+            res.render('PrincipalVerifyOutpass', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
     }catch(err)
     {
         console.error(err);
@@ -1086,10 +913,6 @@ app.post('/PrincipalVerifyOutpass', async (req, res) => {
     }
 });
 
-
-
-
-
 app.get('/PrincipalVerifyOnduty', async(req, res) => {
     try{
         const search = req.query.search_input;
@@ -1110,7 +933,16 @@ app.get('/PrincipalVerifyOnduty', async(req, res) => {
             else{
                 students=await Database.find({  status: "principal" ,type:"onduty"}).exec(); 
             }
-    res.render('PrincipalVerifyOnduty', {students});
+            let homepassCount=0,outpassCount=0,ondutypassCount=0;
+            try{
+            homepassCount = await Database.countDocuments({type: 'homepass',status:'principal',});
+            outpassCount = await Database.countDocuments({type: 'outpass',status:'principal',});
+            ondutypassCount = await Database.countDocuments({type: 'onduty',status:'principal', });
+            }
+            catch{
+                console.log("Error counting database");
+            }
+            res.render('PrincipalVerifyOnduty', { students: students,homepassCount :homepassCount,outpassCount:outpassCount,ondutypassCount:ondutypassCount});
         
     }catch(err)
     {
@@ -1149,18 +981,14 @@ app.post('/PrincipalVerifyOnduty', async (req, res) => {
         }
     
 
-        res.redirect('/PrincipalVerifyOnduty');
+     res.redirect('/PrincipalVerifyOnduty');
     } catch (error) {
         console.error('Error processing request:', error);
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
 
-
-
-
-
-//taffVerify
+//Admin
 app.get('/AdminPage', async (req, res) => {
     try {
         res.redirect('/LoginRegister');
@@ -1180,12 +1008,10 @@ app.post('/Status', async (req, res) => {
         let hodRecord = await Database.findOne({ register_number });
         if (hodRecord) {
             const { type, status } = hodRecord;
-            if (type === "homepass" || type === "outpass" || type === "onduty") {
-                return res.json({ message: status });
+            if (type === 'homepass'|| type === 'outpass' || type === 'onduty') {
+                return res.json({ status: status.toUpperCase() ,type:type.toUpperCase()});
             }
         }
-
-        // If no record found
         res.status(404).json({ message: "Record not found" });
     } catch (error) {
         console.error("Error checking database:", error);
@@ -1232,10 +1058,6 @@ app.get('/History', async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
-
-
-
 // Route to render the feedbacks
 app.get('/Feedback', async (req, res) => {
     try {
@@ -1249,10 +1071,6 @@ app.get('/Feedback', async (req, res) => {
         res.status(500).json({ message: "Error fetching feedbacks" });
     }
 });
-
-
-
-
 app.post('/Feedback', async (req, res) => {
     try {
         const {fb_name, fb_email, fb_message } = req.body;
@@ -1279,9 +1097,6 @@ app.post('/Feedback', async (req, res) => {
         return res.status(500).json({ success: false, message: "Error saving feedback", error: error.message });
     }
 });
-
-
-
 app.post('/deleteFeedback', async (req, res) => {
     try {
         const feedbackId = req.body.id;
@@ -1293,14 +1108,6 @@ app.post('/deleteFeedback', async (req, res) => {
         res.status(500).send('Error deleting feedback.');
     }
 });
-
-
-
-
-
-
-
-
 app.get('/History/DownloadQR/:id', async (req, res) => {
     try {
         const { id } = req.params;

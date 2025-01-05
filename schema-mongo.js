@@ -1,67 +1,179 @@
 const mongoose = require('mongoose');
 
 const Student_Accounts = new mongoose.Schema({
-    image_R:String,
-    first_name_R:String,
-    last_name_R: String,
-    email_id_R: String,
-    create_password_R: String,
-    register_number_R:String,
-    phone_number_R:String,
-    department_R:String,
-    year_R:String,
-    address_R:String
+    image_R: {
+        type: String,
+        required: false,
+        default: ''
+    },
+    first_name_R: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxlength: 50,
+        trim: true
+    },
+    last_name_R: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxlength: 50,
+        trim: true
+    },
+    email_id_R: {
+        type: String,
+        required: true,
+        unique: true,
+        match: [/\S+@\S+\.\S+/, 'Please enter a valid email address']
+    },
+    create_password_R: {
+        type: String,
+        required: true,
+        minlength: 6
+    },
+    register_number_R: {
+        type: String,
+        required: true,
+        unique: true,
+        minlength: 6,
+        maxlength: 20
+    },
+    phone_number_R: {
+        type: String,
+        required: true,
+        match: [/^\d{10}$/, 'Please enter a valid 10-digit phone number']
+    },
+    department_R: {
+        type: String,
+        required: true
+    },
+    year_R: {
+        type: String,
+        required: true
+    },
+    address_R: {
+        type: String,
+        required: true,
+        maxlength: 255
+    }
 });
+
 const HOD_DB = new mongoose.Schema({
     student_name: {
         type: String,
         required: true
     },
-    register_number: String,
-    department: String,
-    year: String,
-    purpose_of_outpass: String,
-    parent_conduct_number: String,
-    address:String,
-    from_date: String,
-    to_date: String,
-    status:String,
-    type:String,
-    image:String
-});
-const Database1= new mongoose.Schema({
-    student_name: String,
-    register_number: String,
-    department: String,
-    year: String,
-    purpose_of_outpass: String,
-    parent_conduct_number: String,
-    from_date: String,
-    to_date: String,
-    type:String
+    register_number: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    department: {
+        type: String,
+        required: true
+    },
+    year: {
+        type: String,
+        required: true
+    },
+    purpose_of_outpass: {
+        type: String,
+        required: true
+    },
+    parent_conduct_number: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    from_date: {
+        type: Date,
+        required: true
+    },
+    to_date: {
+        type: Date,
+        required: true
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: ['Pending', 'Approved', 'Rejected']
+    },
+    type: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: false
+    },
+    count: {
+        type: Number,
+        default: 0
+    }
 });
 
-const Feedbacks=new mongoose.Schema({
-    fb_name:String,
-    fb_email:String,
-    fb_message:String
+const Database1 = new mongoose.Schema({
+    student_name: {
+        type: String,
+        required: true
+    },
+    register_number: {
+        type: String,
+        required: true
+    },
+    department: {
+        type: String,
+        required: true
+    },
+    year: {
+        type: String,
+        required: true
+    },
+    purpose_of_outpass: {
+        type: String,
+        required: true
+    },
+    parent_conduct_number: {
+        type: String,
+        required: true
+    },
+    from_date: {
+        type: Date,
+        required: true
+    },
+    to_date: {
+        type: Date,
+        required: true
+    },
+    type: {
+        type: String,
+        required: true
+    }
 });
+
+const Feedbacks = new mongoose.Schema({
+    fb_name: {
+        type: String,
+        required: true
+    },
+    fb_email: {
+        type: String,
+        required: true,
+        match: [/\S+@\S+\.\S+/, 'Please enter a valid email address']
+    },
+    fb_message: {
+        type: String,
+        required: true,
+        maxlength: 1000
+    }
+});
+
 const Account = mongoose.model("Account", Student_Accounts);
 const Database = mongoose.model("Student", HOD_DB);
 const ToDatabase = mongoose.model("ToDatabase", Database1);
 const Feedback = mongoose.model("Feedback", Feedbacks);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = { Account,Database,ToDatabase,Feedback};
+module.exports = { Account, Database, ToDatabase, Feedback };

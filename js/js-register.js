@@ -39,7 +39,8 @@ async function handleRegister(event) {
 
 
 
-function statusMessage() {
+function statusMessage(event) {
+  event.preventDefault(); // Prevent form submission
   const registerNumber = document.querySelector('.search').value;
 
   fetch('/Status', {
@@ -51,19 +52,19 @@ function statusMessage() {
   })
   .then(response => response.json())
   .then(data => {
-      if (data.message) {
-          alert(`Outpass status: ${data.message}`);
-      } else if (data.message === " ") {
-          alert('Outpass status: Empty');
+      if (data.status) {
+          alert(` ${data.type} STATUS: ${data.status}`);
       } else {
-          alert('Outpass status: Rejected');
+          alert('PASS STATUS: REJECTED');
       }
   })
   .catch(error => {
-      console.error('Error checking database:', error);
-      alert('Please Try Again');
+      console.log('Error checking database:', error);
+      alert('Please Try Again later');
   });
 }
+
+
 
 function historyview(event) {
   event.preventDefault();

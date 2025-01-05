@@ -60,15 +60,15 @@
                         <div class="border"></div><br>
                     </label>
                     <label class="purpose">Purpose Of Outpass<span>*</span><br>
-                        <input type="text" id="purpose_val" class="input-box" name="purpose_of_outpass" ><br>
+                        <input type="text" id="purpose_val" class="input-box" name="purpose_of_outpass" required><br>
                         <div class="border"></div><br>
                     </label>
                     <label class="from_date">From Date and time<span>*</span><br><br>
-                        <input type="datetime-local" id="from_date_val" class="date-input-box" name="from_date" ><br><br>
+                        <input type="datetime-local" id="from_date_val" class="date-input-box" name="from_date" required><br><br>
                         <div class="border"></div><br>
                     </label>
                     <label class="to_date">To Date and time<span>*</span><br><br>
-                        <input type="datetime-local" id="to_date_val" class="date-input-box" name="to_date" ><br><br>
+                        <input type="datetime-local" id="to_date_val" class="date-input-box" name="to_date" required><br><br>
                         <div class="border"></div><br>
                     </label>
                     <input type="hidden" name="type" value="outpass">
@@ -85,7 +85,7 @@
                                 </div>
                                 <p class="search_text"> Register-Number</p>
                                 <input type="text" class="search" name="track" placeholder="711521BCS026" required><br>
-                                <button class="track_btn" type="submit" id="sub" onclick="statusMessage()">Track</button>
+                                <button class="track_btn" type="submit" id="sub" onclick="statusMessage(event)">Track</button>
                             </form>
                         </div>
                         <div class="history_box">

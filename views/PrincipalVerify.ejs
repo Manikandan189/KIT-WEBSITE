@@ -17,9 +17,9 @@
         <nav id="side-menu" class="side-menu">
             <img src="/kit.png" class="kitlogoSideBar" alt="Logo">
             <ul>
-                <li><a href="/PrincipalVerify">HOMEPASS</a></li>
-                <li><a href="/PrincipalVerifyOutpass">OUTPASS</a></li>
-                <li><a href="/PrincipalVerifyOnduty">ONDUTY</a></li>
+                <li><a href="/PrincipalVerify">HOMEPASS<span class="notification-badge"><%= homepassCount %></span></a></li>  
+                <li><a href="/PrincipalVerifyOutpass">OUTPASS <span class="notification-badge"><%= outpassCount %></span></a></li>
+                <li><a href="/PrincipalVerifyOnduty">ONDUTY <span class="notification-badge"><%= ondutypassCount %></span></a></li>
             </ul>
         </nav>
         <img src="/kit.png" class="kitlogo" alt="Logo">
@@ -58,6 +58,7 @@
                         <th>Parent Contact Number</th>
                         <th>From Date</th>
                         <th>To Date</th>
+                        <th>This Month(Requests)</th>
                         <th>Reject</th>
                         <th>accept</th>
                     </tr>
@@ -73,6 +74,7 @@
                         <td><%= student.parent_conduct_number %></td>
                         <td><%= student.from_date %></td>
                         <td><%= student.to_date %></td>
+                        <td><%= student.count %></td>
                         <td>
                             <form action="/PrincipalVerify" method="post">
                                 <input type="hidden" name="S_Id" value="<%= student._id %>">

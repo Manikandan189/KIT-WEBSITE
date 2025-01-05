@@ -17,9 +17,9 @@
         <nav id="side-menu" class="side-menu">
             <img src="/kit.png" class="kitlogoSideBar" alt="Logo">
             <ul>
-                <li><a href="/AdvisorVerify">HOMEPASS</a></li>
-                <li><a href="/AdvisorVerifyOutpass">OUTPASS</a></li>
-                <li><a href="/AdvisorVerifyOnduty">ONDUTY</a></li>
+                <li><a href="/AdvisorVerify">HOMEPASS<span class="notification-badge"><%= homepassCount %></span></a></li>  
+                <li><a href="/AdvisorVerifyOutpass">OUTPASS <span class="notification-badge"><%= outpassCount %></span></a></li>
+                <li><a href="/AdvisorVerifyOnduty">ONDUTY <span class="notification-badge"><%= ondutypassCount %></span></a></li>
             </ul>
         </nav>
         <img src="/kit.png" class="kitlogo" alt="Logo">
@@ -58,6 +58,7 @@
                         <th>Purpose Of Onduty</th>
                         <th>From Date</th>
                         <th>To Date</th>
+                        <th>This Month(Requests)</th>
                         <th>Reject</th>
                         <th>accept</th>
                     </tr>
@@ -73,6 +74,7 @@
                         <td><%= student.purpose_of_outpass %></td>
                         <td><%= student.from_date %></td>
                         <td><%= student.to_date %></td>
+                        <td><%= student.count %></td>
                         <td>
                             <form action="/AdvisorVerifyOnduty" method="post">
                                 <input type="hidden" name="S_Id" value="<%= student._id %>">
