@@ -6,6 +6,7 @@ const path=require('path')
 const PDFDocument = require('pdfkit');
 const session = require('express-session');
 const {Account,Database,ToDatabase,Feedback}=require('./schema-mongo');
+const bcrypt = require('bcrypt');
 require('dotenv').config({path: './ImportantLinks.env'});
 
 const app=express()
@@ -109,13 +110,14 @@ app.get('/EditAccount/:id', async (req, res) => {
 app.post('/EditAccount/:id', async (req, res) => {
     try {
         const { first_name_R, last_name_R, email_id_R, phone_number_R, department_R, create_password_R } = req.body;
+        const hashpass=await bcrypt.hash(create_password_R,10);
         await Account.findByIdAndUpdate(req.params.id, {
             first_name_R,
             last_name_R,
             email_id_R,
             phone_number_R,
             department_R,
-            create_password_R
+            create_password_R:hashpass
         });
 
         res.redirect('/Accounts'); // Redirect back to the accounts page
@@ -142,7 +144,7 @@ app.post('/ChangePassword', async (req, res) => {
         if (!account) {
             return res.status(404).json({ message: "Account not found!" });
         }
-        account.create_password_R = F_newpass;
+        account.create_password_R = await bcrypt.hash(F_newpass,10);
         await account.save();
         res.redirect('/StudentLogin');
     } catch (error) {
@@ -165,12 +167,14 @@ app.post('/LoginRegister', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
         }
+        const hashedpass=await bcrypt.hash(create_password_R,10);
+        console.log(hashedpass);
         const newUser = new Account({
             image_R,
             first_name_R,
             last_name_R,
             email_id_R,
-            create_password_R, 
+            create_password_R:hashedpass,
             register_number_R,
             phone_number_R,
             department_R,
@@ -199,8 +203,10 @@ app.post('/StudentLogin', async (req, res) => {
         }
         console.log(student_password);
         console.log(user.create_password_R);
-        if (student_password!==user.create_password_R) {
-            return res.redirect('/StudentLogin')
+        const isMatch = await bcrypt.compare(student_password, user.create_password_R);
+
+        if (!isMatch) {
+            return res.redirect('/StudentLogin'); 
         }
         req.session.user = {
             image_S:user.image_R,
