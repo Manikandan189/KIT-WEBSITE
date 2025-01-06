@@ -379,7 +379,6 @@ body, html {
   margin-top: 65px;
 }
 
-
 /* .social-button:hover {
   background-color: #0056b3;
 } */
@@ -388,7 +387,7 @@ body, html {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(0deg); /* Initial rotation set to 0 */
   width: 0;
   height: 0;
   display: flex;
@@ -396,9 +395,9 @@ body, html {
   align-items: center;
   pointer-events: none;
   opacity: 0;
-  transition: width 0.3s, height 0.3s, opacity 0.3s;
+  transition: width 0.3s, height 0.3s, opacity 0.3s, transform 0.8s ease; /* Add rotation transition */
 }
-/* Existing styles */
+
 .admin-title {
   margin-top: 45px;
   font-size: 14px;
@@ -408,7 +407,7 @@ body, html {
   opacity: 1;  /* Make it fully visible */
   transition: visibility 0s 0.4s, opacity 0.6s ease; /* Transition for opacity */
 }
-/* When hovering over the social button, hide the admin title */
+
 .social-button:hover .admin-title {
   visibility: hidden;
   opacity: 0;
@@ -420,6 +419,7 @@ body, html {
   height: 190px;
   pointer-events: auto;
   opacity: 1;
+  transform: translate(-50%, -50%) rotate(360deg); /* Rotate the social links */
 }
 
 
@@ -439,6 +439,11 @@ body, html {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+}
+.social-icon:hover img {
+  transform: scale(1.2); /* Smooth scaling */
+  border-radius: 50%;
+  transition: transform 0.3s ease; /* Ensure smooth transition on hover */
 }
 
 .social-icon:nth-child(1) {
