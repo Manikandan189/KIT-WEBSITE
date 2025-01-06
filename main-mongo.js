@@ -351,7 +351,7 @@ app.post('/Register', async (req, res) => {
             address: address_S,
             from_date,
             to_date,
-            status: "advisor", // Initial status
+            status: 'advisor', // Initial status
             type: type,        // Type of pass
             image: image_S,    // Student image
             count:count

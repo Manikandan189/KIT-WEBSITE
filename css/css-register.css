@@ -562,3 +562,7 @@ footer{
   margin-left: 30%;
   margin-bottom: 30px;
 }
+.email ,.link{
+  height: 32px;
+  width: 32px;
+}

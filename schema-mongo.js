@@ -99,7 +99,6 @@ const HOD_DB = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ['Pending', 'Approved', 'Rejected']
     },
     type: {
         type: String,
