@@ -89,11 +89,11 @@ const HOD_DB = new mongoose.Schema({
         required: true
     },
     from_date: {
-        type: Date,
+        type: String,
         required: true
     },
     to_date: {
-        type: Date,
+        type: String,
         required: true
     },
     status: {
@@ -140,11 +140,11 @@ const Database1 = new mongoose.Schema({
         required: true
     },
     from_date: {
-        type: Date,
+        type: String,
         required: true
     },
     to_date: {
-        type: Date,
+        type: String,
         required: true
     },
     type: {

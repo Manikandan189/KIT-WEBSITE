@@ -239,6 +239,8 @@ app.post('/AdvisorLogin',async (req,res)=>{
         console.log(advisor_password,"=====",process.env.advisorPassword);
         if(advisor_email===process.env.advisorEmail && advisor_password===process.env.advisorPassword)
         res.redirect('/AdvisorVerify')
+    else
+    res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
     catch(error){
         res.redirect('/AdvisorLogin')
@@ -254,6 +256,8 @@ app.post('/StaffLogin',async (req,res)=>{
         const{staff_email ,staff_password}=req.body;
         if(staff_email===process.env.hodEmail && staff_password===process.env.hodPassword)
         res.redirect('/StaffVerify');
+        else
+        res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
     catch(error){
         res.redirect('/StaffLogin')
@@ -269,6 +273,8 @@ app.post('/PrincipalLogin',async (req,res)=>{
         const{principal_email ,principal_password}=req.body;
         if(principal_email===process.env.principalEmail && principal_password===process.env.principalPassword)
         res.redirect('/PrincipalVerify')
+        else
+        res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
     catch(error){
         res.redirect('/PrincipalLogin')
@@ -283,6 +289,8 @@ app.post('/AdminLogin',async (req,res)=>{
         const{security_email ,security_password}=req.body;
         if(security_email===process.env.adminEmail && security_password===process.env.adminPassword)
         res.redirect('/Admin_options')
+        else
+        res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
     catch(error){
         res.redirect('/AdminLogin')
@@ -324,22 +332,25 @@ app.post('/Register', async (req, res) => {
         const { firstName_S, lastName_S, registerNumber_S, year_S, department_S, address_S, phoneNumber_S, image_S } = req.session.user;
 
         console.log("Type of outpass requested:", type);
-        let count=1;
+        let count = 1;
 
-        // Check if a record with the same register number and type 'homepass' exists
+        // Check if a record with the same register number and type exists
         const existingRecord = await Database.findOne({
             register_number: registerNumber_S,
             parent_conduct_number: phoneNumber_S,
-            type:type
+            type: type
         });
         
-        
+        // If a record exists, increment the count or delete the record
         if (existingRecord) {
-            count=existingRecord.count+1;
+            count = existingRecord.count + 1;
             console.log("Existing record found, deleting...");
-            await Database.deleteOne({ register_number: registerNumber_S ,parent_conduct_number: phoneNumber_S,type:type});
+            await Database.deleteOne({ register_number: registerNumber_S, parent_conduct_number: phoneNumber_S, type: type });
+            console.log("deleted...");
+        } else {
+            console.log("No existing record found");
         }
-          
+
         // Create a new record for the student's outpass request
         const newstu = new Database({
             student_name: `${firstName_S} ${lastName_S}`,
@@ -354,7 +365,7 @@ app.post('/Register', async (req, res) => {
             status: 'advisor', // Initial status
             type: type,        // Type of pass
             image: image_S,    // Student image
-            count:count
+            count: count
         });
 
         // Save student request
@@ -366,6 +377,7 @@ app.post('/Register', async (req, res) => {
         return res.status(500).json({ success: false, message: "Error registering user", error: error.message });
     }
 });
+
 //staffverify section
 let dept=" ";
 app.post('/StaffVerify1', async (req, res) => {
