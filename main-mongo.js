@@ -5,10 +5,10 @@ const bodyParser=require('body-parser')
 const path=require('path')
 const PDFDocument = require('pdfkit');
 const session = require('express-session');
-const {Account,Database,ToDatabase,Feedback}=require('./schema-mongo');
+const {Account,Database,ToDatabase,Feedback,xeroxRequests}=require('./schema-mongo');
 const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');//for xerox 
 require('dotenv').config({path: './ImportantLinks.env'});
-
 
 const app=express()
 app.set('view engine', 'ejs');
@@ -49,6 +49,7 @@ app.get('/Departments', (req, res) => {
 app.get('/Admin_options', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-admin-options.html'));
 });
+
 
 
 
@@ -219,7 +220,7 @@ app.post('/StudentLogin', async (req, res) => {
             year_S: user.year_R,
             phoneNumber_S: user.phone_number_R,
             address_S: user.address_R
-        };2
+        };
         
             res.redirect('/Register')
         
@@ -1208,6 +1209,174 @@ app.get('/History/DownloadQR/:id', async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+
+
+
+
+
+
+
+
+// xerox field
+app.get('/PersonalDetails', (req, res) => {
+    if (!req.session.identity) {
+        req.session.identity = uuidv4();  // Generate identity and store in session
+    }
+    res.sendFile(path.join(__dirname, 'html', 'html-xerox-page1.html'));
+});
+
+app.get('/historycheck', (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'html-xeroxhistory.html'));
+});
+
+
+app.get('/Payment', async (req, res) => {
+    try {
+        const identity = req.session.identity;
+        const tot = await xeroxRequests.findOne({ identity: identity });
+        if (!tot) {
+            return res.status(404).send("Request not found");
+        }
+        console.log(tot.totalamount);
+        const totalamount = tot.totalamount;
+        res.render('html-xerox-payment', { totalamount: totalamount });
+    } catch (error) {
+        console.log("Error in finding totalamount:", error);
+        res.status(500).send("An error occurred while retrieving payment details");
+    }
+});
+
+
+app.get('/DocumentInfo', (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'html-xerox-document.html'));
+});
+
+
+
+
+app.post('/PersonalDetails', async (req, res) => {
+    const { firstName, lastName, email, phone } = req.body;
+    try {
+        const personal = new xeroxRequests({
+            identity:req.session.identity,
+            firstName,
+            lastName,
+            email,
+            phone,
+        });
+        await personal.save();
+        await res.redirect("/DocumentInfo");
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to save personal details.' });
+    }
+});
+
+
+
+app.post('/DocumentInfo', async (req, res) => {
+    const { docTitle, numPages, numCopies, paperSize, printType, bindingOption, uploadDocument,totalamount } = req.body;
+    console.log("doc"+ docTitle, numPages, numCopies, paperSize, printType, bindingOption, uploadDocument,totalamount );
+    const identity = req.session.identity;
+    try {
+        await xeroxRequests.findOneAndUpdate(
+            { identity:identity },
+            {
+                $set: {
+                    docTitle,
+                    numPages,
+                    numCopies,
+                    paperSize,
+                    printType,
+                    bindingOption,
+                    uploadDocument,
+                    totalamount
+                }
+            },
+            { new: true } // returns the updated document
+        );
+        await res.redirect('/Payment');
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to update document details.' });
+    }
+});
+
+app.post('/Payment', async (req, res) => {
+    const { comments, paymentMethod } = req.body;
+    console.log("pay=",comments,paymentMethod);
+    const identity = req.session.identity;
+    try {
+        await xeroxRequests.findOneAndUpdate(
+            { identity:identity },
+            {
+                $set: {
+                    comments,
+                    paymentMethod
+                }
+            },
+            { new: true }
+        );
+        res.status(200).send({ message: 'Payment details updated successfully.' });
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to update payment details.' });
+    }
+});
+
+app.get('/xeroxHistory', async (req, res) => {
+    try {
+    
+        const { historyPhoneNumber } = req.query;
+
+        console.log(historyPhoneNumber);
+        const xerox = await xeroxRequests.find({ phone: historyPhoneNumber });
+        res.render('XeroxHistory', { xerox });
+
+    } catch (error) {
+        console.error("Error retrieving history:", error);
+        res.status(500).json({ message: "Error retrieving history", error: error.message });
+    }
+});
+
+
+
+
+
+//payment gateway
+
+const razorpay = require('razorpay');
+const instance = new razorpay({
+  key_id: 'rzp_live_mEUdXomhmM6cLN',
+  key_secret: 'OqB6p5wVWa3vYDJLy4RBsJzq'
+});
+
+app.post('/create-order', (req, res) => {
+  const { amount } = req.body;
+  
+console.log("amount=",amount)
+  const options = {
+    amount: Number(amount), // Amount in paise
+    currency: 'INR',
+    receipt: 'receipt#1',
+  };
+
+  instance.orders.create(options, function(err, order) {
+    if (err) {
+      console.error('Error creating order:', err);
+      return res.status(500).json({ error: 'Error creating order' });
+    }
+
+    // Send the order ID to the frontend
+    res.json({ order_id: order.id });
+  });
+});
+
+
+
+
+
+
+
+
 //port
-const PORT = process.env.PORT || 5100;
+const PORT = process.env.PORT;
 app.listen(PORT)

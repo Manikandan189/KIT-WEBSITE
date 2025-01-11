@@ -149,14 +149,24 @@ body, html {
   margin-top: 7px;
   margin-left: 13px;
 }
-
-.head_status{
+.head_xerox
+{
   font-family: "Raleway Thin", Arial, Helvetica, sans-serif;
   margin-left: auto;
   font-weight: lighter;
   margin-right: 5%;
   border: 2px black;
 }
+
+
+.head_status{
+  font-family: "Raleway Thin", Arial, Helvetica, sans-serif;
+  margin-left: 0%;
+  font-weight: lighter;
+  margin-right: 5%;
+  border: 2px black;
+}
+
 .head_history{
   font-family: "Raleway Thin", Arial, Helvetica, sans-serif;
   font-weight: lighter;
@@ -167,7 +177,7 @@ body, html {
   margin-right: 4%;
   font-weight: lighter;
 }
-.head_status:hover,.head_contact:hover,.head_history:hover{
+.head_status:hover,.head_contact:hover,.head_history:hover,.head_xerox:hover{
   color: #0056b3;
   cursor: pointer;
 }

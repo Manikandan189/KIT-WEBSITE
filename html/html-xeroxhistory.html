@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Check</title>
+    <link rel="stylesheet" href="/css-xerox-page1.css">
+</head>
+<body>
+    <form method="get" action="/xeroxHistory">
+    <div class="container">
+        <h1>History Check</h1>
+        <div class="history-check">
+            <fieldset>
+                <legend>History Check</legend>
+                <div class="form-group">
+                    <label for="historyPhoneNumber">Enter Phone Number:</label>
+                    <input type="tel" id="historyPhoneNumber" name="historyPhoneNumber" placeholder="Enter your phone number to check history" required>
+                </div>
+                <button type="submit" onclick="window.location.href='/xeroxHistory'">Check History</button>
+            </fieldset>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

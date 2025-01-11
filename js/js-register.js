@@ -42,7 +42,6 @@ async function handleRegister(event) {
 function statusMessage(event) {
   event.preventDefault(); // Prevent form submission
   const registerNumber = document.querySelector('.search').value;
-
   fetch('/Status', {
       method: 'POST',
       headers: {

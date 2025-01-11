@@ -170,9 +170,35 @@ const Feedbacks = new mongoose.Schema({
     }
 });
 
+
+
+
+
+const xeroxRequestSchema = new mongoose.Schema({
+        identity: String,
+          firstName:String,
+          lastName: String,
+          email: String,
+          phone: String,
+          docTitle: String,
+          numPages: String,
+          numCopies:  String,
+          paperSize:  String,
+          printType:  String,
+          bindingOption:  String,
+          uploadDocument:  String,
+          totalamount:Number,
+        comments:  String
+        
+      
+})
+
+
+
 const Account = mongoose.model("Account", Student_Accounts);
 const Database = mongoose.model("Student", HOD_DB);
 const ToDatabase = mongoose.model("ToDatabase", Database1);
 const Feedback = mongoose.model("Feedback", Feedbacks);
+const xeroxRequests= mongoose.model("xerox", xeroxRequestSchema);
 
-module.exports = { Account, Database, ToDatabase, Feedback };
+module.exports = { Account, Database, ToDatabase, Feedback,xeroxRequests };
