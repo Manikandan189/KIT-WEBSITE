@@ -5,9 +5,8 @@ const bodyParser=require('body-parser')
 const path=require('path')
 const PDFDocument = require('pdfkit');
 const session = require('express-session');
-const {Account,Database,ToDatabase,Feedback,xeroxRequests}=require('./schema-mongo');
+const {Account,Database,ToDatabase,Feedback,xeroxRequests,shopOwner}=require('./schema-mongo');
 const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');//for xerox 
 require('dotenv').config({path: './ImportantLinks.env'});
 
 const app=express()
@@ -49,7 +48,6 @@ app.get('/Departments', (req, res) => {
 app.get('/Admin_options', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-admin-options.html'));
 });
-
 
 
 
@@ -1219,37 +1217,134 @@ app.get('/History/DownloadQR/:id', async (req, res) => {
 
 
 // xerox field
+
+
+app.get('/xerox-Home', (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'html-xerox-home.html'));
+});
+
+app.get('/owner-login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'html-xerox-login.html'));
+});
+app.post('/owner-login', async (req, res) => {
+    try {
+        const { shopId } = req.body;
+        const owner = await shopOwner.findOne({ shopId: shopId });
+        console.log(shopId);
+
+        if (!owner) {
+            return res.status(404).send({ message: "Shop ID not found" });
+        }
+
+        req.session.owner = owner._id;
+        res.redirect('owner-Dashboard'); 
+    } catch (error) {
+        res.status(500).send({ message: "Login failed", error });
+    }
+});
+
+
+app.get('/owner-Dashboard', async (req, res) => {
+    const shopId = req.session.owner;
+    
+    if (!shopId) {
+        return res.redirect('/owner-login');
+    }
+
+    try {
+        const orders = await xeroxRequests.find({ shopId: shopId });
+        console.log(shopId);
+        res.render('Orders_requests', {orders});
+    } catch (error) {
+        res.status(500).send({ message: "Failed to fetch orders", error });
+    }
+});
+
+
+app.get('/shop-register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'html-shop-register.html'));
+});
+app.post('/shop-register', async (req, res) => {
+    try {
+        const {
+            fullName, gender, phonePrimary, phoneAlternate, email, shopName, shopAddress, freeDelivery, deliveryCharge, deliveryDays, blackWhiteA4, blackWhiteA3, colorA4, colorA3, spiralBinding, 
+            hardCoverBinding,  softCoverBinding, lamination, scanning, posters, businessCards
+        } = req.body;
+        if (!email || email.trim() === '') {
+            return res.status(400).json({ message: 'Email is required' });
+        }
+
+        const existingShop = await shopOwner.findOne({ email });
+        if (existingShop) {
+            return res.status(400).json({ message: 'Shop with this email already exists' });
+        }
+
+        if (!fullName || !phonePrimary || !shopName || !shopAddress || !email) {
+            return res.status(400).json({ message: 'All required fields must be filled out' });
+        }
+
+        const shopId = crypto.randomInt(1000000, 9999999).toString();
+        req.session.shopId = shopId;
+        console.log(shopId);
+        const newShop = new shopOwner({
+            fullName, 
+            gender, 
+            phonePrimary, 
+            phoneAlternate, 
+            email, 
+            shopName, 
+            shopAddress, 
+            freeDelivery, 
+            deliveryCharge, 
+            deliveryDays, 
+            blackWhiteA4,
+            blackWhiteA3,
+            colorA4,
+            colorA3,
+            spiralBinding,
+            hardCoverBinding,
+            softCoverBinding,
+            lamination,
+            scanning,
+            posters,
+            businessCards,
+            shopId  
+        });
+        await newShop.save();
+        return res.redirect('/shop-id');
+        
+    } catch (error) {
+        console.error("Error in shop registration:", error);
+        res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+    }
+});
+app.get('/shop-id', (req, res) => {
+        console.log(req.session.shopId);
+        res.render('shopId',{shopId:req.session.shopId});
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/PersonalDetails', (req, res) => {
     if (!req.session.identity) {
-        req.session.identity = uuidv4();  // Generate identity and store in session
+        req.session.identity = uuidv4();
     }
     res.sendFile(path.join(__dirname, 'html', 'html-xerox-page1.html'));
-});
-
-app.get('/historycheck', (req, res) => {
-    res.sendFile(path.join(__dirname, 'html', 'html-xeroxhistory.html'));
-});
-
-
-app.get('/Payment', async (req, res) => {
-    try {
-        const identity = req.session.identity;
-        const tot = await xeroxRequests.findOne({ identity: identity });
-        if (!tot) {
-            return res.status(404).send("Request not found");
-        }
-        console.log(tot.totalamount);
-        const totalamount = tot.totalamount;
-        res.render('html-xerox-payment', { totalamount: totalamount });
-    } catch (error) {
-        console.log("Error in finding totalamount:", error);
-        res.status(500).send("An error occurred while retrieving payment details");
-    }
-});
-
-
-app.get('/DocumentInfo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'html', 'html-xerox-document.html'));
 });
 
 
@@ -1274,8 +1369,21 @@ app.post('/PersonalDetails', async (req, res) => {
 
 
 
+app.get('/historycheck', (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'html-xeroxhistory.html'));
+});
+
+app.get('/DocumentInfo', async (req, res) => {
+    try {
+        const shops = await shopOwner.find({}, 'shopName'); // Fetch only shop names
+        res.render('html-xerox-document', { shops: shops });
+    } catch (error) {
+        res.status(500).send({ message: "Error fetching shop information", error });
+    }
+});
+
 app.post('/DocumentInfo', async (req, res) => {
-    const { docTitle, numPages, numCopies, paperSize, printType, bindingOption, uploadDocument,totalamount } = req.body;
+    const { docTitle, numPages, numCopies, paperSize, printType, bindingOption, uploadDocument,totalamount,shopId } = req.body;
     console.log("doc"+ docTitle, numPages, numCopies, paperSize, printType, bindingOption, uploadDocument,totalamount );
     const identity = req.session.identity;
     try {
@@ -1290,6 +1398,7 @@ app.post('/DocumentInfo', async (req, res) => {
                     printType,
                     bindingOption,
                     uploadDocument,
+                    shopId,
                     totalamount
                 }
             },
@@ -1301,9 +1410,44 @@ app.post('/DocumentInfo', async (req, res) => {
     }
 });
 
+
+
+
+
+app.get('/getShopDetails/:shopId', async (req, res) => {
+    try {
+        const shop = await shopOwner.findById(req.params.shopId);
+        if (shop) {
+            res.json(shop);
+        } else {
+            res.status(404).json({ message: "Shop not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching shop details", error });
+    }
+});
+
+
+
+app.get('/Payment', async (req, res) => {
+    try {
+        const identity = req.session.identity;
+        const tot = await xeroxRequests.findOne({ identity: identity });
+        if (!tot) {
+            return res.status(404).send("Request not found");
+        }
+        console.log(tot.totalamount);
+        const totalamount = tot.totalamount;
+        res.render('html-xerox-payment', { totalamount: totalamount });
+    } catch (error) {
+        console.log("Error in finding totalamount:", error);
+        res.status(500).send("An error occurred while retrieving payment details");
+    }
+});
+
 app.post('/Payment', async (req, res) => {
-    const { comments, paymentMethod } = req.body;
-    console.log("pay=",comments,paymentMethod);
+    const { comments,paymentStatus } = req.body;
+    console.log("pay=",comments);
     const identity = req.session.identity;
     try {
         await xeroxRequests.findOneAndUpdate(
@@ -1311,7 +1455,7 @@ app.post('/Payment', async (req, res) => {
             {
                 $set: {
                     comments,
-                    paymentMethod
+                    paymentStatus
                 }
             },
             { new: true }

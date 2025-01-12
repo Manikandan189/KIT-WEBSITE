@@ -284,26 +284,6 @@ body, html {
   margin-top: 20px;
 }
 
-@media (max-width: 768px) {
-  .footer .container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .footer .footer-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .footer .footer-section {
-    padding: 20px 0;
-  }
-}
-
-
-
-
-
 /* Common popup style */
 #statuspop, #historypop {
   display: none;
@@ -472,3 +452,165 @@ body, html {
   right: 20px;
 }
 
+
+
+/* Media query for mobile view */
+@media (max-width: 768px) {
+  /* General Layout Adjustments */
+  body {
+    background-image: url("/white.jpg");
+    background-size: cover; /* Ensure background is fully visible */
+    background-position: center;
+  }
+
+  /* Card Content Layout */
+  .card-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack the cards vertically */
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Space between cards */
+  }
+
+  /* Card Style */
+  .staff, .student, .principal, .admin {
+    position: relative;
+    width: 100%; /* Full width for mobile */
+    height: 200px; /* Set a fixed height */
+    background-color: rgba(255, 255, 255, 0.8); /* Transparent background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for card */
+    overflow: hidden; /* Hide overflow for clean design */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+  }
+
+  .staff:hover, .student:hover, .principal:hover, .admin:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+
+  .staff .title, .student .title, .principal .title, .admin .title {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    color: #fff; /* White text */
+    font-size: 18px; /* Reduced font size */
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
+  }
+
+  .staff .description, .student .description, .principal .description, .admin .description {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    color: #fff;
+    font-size: 12px; /* Reduced description font size */
+    font-weight: 300;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    padding: 0 15px;
+    transition: opacity 0.3s ease-in-out; /* Fade in/out effect */
+  }
+
+  /* Overlay Background */
+  .staff::before, .student::before, .principal::before, .admin::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay for images */
+    z-index: 1;
+  }
+
+  .staff:hover .description, .student:hover .description, .principal:hover .description, .admin:hover .description {
+    opacity: 1; /* Show description on hover */
+  }
+
+  /* Header */
+  .header {
+    padding: 5px 15px; /* Reduced padding for a more compact header */
+    height: auto;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Slight background for header */
+    font-family: Arial, sans-serif; /* A more modern, professional font */
+  }
+  .kitlogo {
+    height: 5vh; /* Smaller logo for mobile */
+    margin-left: 0;
+  }
+
+  .log {
+    font-size: 20px; /* Further reduced font size */
+    font-weight: 500; /* Semi-bold for better professional look */
+    padding-left: 15px;
+  }
+
+  .log-border {
+    width: 70px; /* Reduced border width */
+  }
+
+  /* Footer adjustments */
+  .footer .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer .footer-section {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .footer .links ul {
+    padding-left: 0;
+  }
+
+  /* Social Links */
+  .footer .social .social-links a {
+    font-size: 1.1em; /* Slightly smaller font size for mobile */
+    margin: 0 6px;
+  }
+
+  /* Button adjustments */
+  .track_btn, .history_btn {
+    font-size: 11px; /* Smaller buttons for mobile */
+    width: 80%;
+    max-width: none;
+  }
+
+  .social-button {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    margin-top: 35px; /* Adjust spacing */
+  }
+
+  /* Popup windows */
+  #statuspop, #historypop {
+    width: 90%; /* Full-width popups */
+    left: 5%;
+    top: 10%; /* Adjust top positioning */
+  }
+
+  /* Search box */
+  .search_text, .history_search_text {
+    font-size: 11px; /* Smaller font */
+  }
+
+  .search, .history {
+    font-size: 11px;
+    height: 25px;
+  }
+
+  /* Hide elements if necessary */
+  .non-desktop-message {
+    display: block;
+  }
+}

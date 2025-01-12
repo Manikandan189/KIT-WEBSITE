@@ -35,3 +35,9 @@ document.getElementById("contact").addEventListener("click", () => {
         behavior: "smooth"
     });
 });
+
+window.onload = function() {
+    if (window.innerWidth <= 1024) {
+        alert('This site is best viewed on a desktop. Please use a computer for an optimal experience.');
+    }
+};
