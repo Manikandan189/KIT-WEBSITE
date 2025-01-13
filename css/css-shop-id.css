@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.shop-id-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.shop-id-box {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+.shop-id-box h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.shop-id-display {
+    margin: 20px 0;
+}
+
+.shop-id-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+    padding: 10px 20px;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+}
+
+.copy-id-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.copy-id-btn:hover {
+    background-color: #45a049;
+}
+
+#copy-feedback {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.background-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

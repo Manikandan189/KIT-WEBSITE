@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard</title>
+    <link rel="stylesheet" href="/css-order-requests.css">
+</head>
+<body>
+    <h1>Welcome to the Owner Dashboard</h1>
+    <div class="total-amount">
+        <h3>Total Amount for All Orders: ₹<%= orders.reduce((total, order) => total + order.totalamount, 0) %></h3>
+    </div>
+    
+    <% if (orders.length > 0) { %>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Full Name</th>
+                        <th>College Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Document Title</th>
+                        <th>Uploaded Document</th>
+                        <th>Pages</th>
+                        <th>Copies</th>
+                        <th>Paper Size</th>
+                        <th>Print Type</th>
+                        <th>Binding Option</th>
+                        <th>Total Amount</th>
+                        <th>Instruction</th>
+                        <th>Remarks</th>
+                        <th>Completed</th>
+                        <th>Delivered</th>
+                        <th>Action</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(order => { %>
+                        <tr>
+                            <td><%= order.paymentStatus %></td>
+                            <td><%= order.firstName %></td>
+                            <td><%= order.lastName %></td>
+                            <td><%= order.email %></td>
+                            <td><%= order.phone %></td>
+                            <td><%= order.docTitle %></td>
+                            <td><%= order.uploadDocument %></td>
+                            <td><%= order.numPages %></td>
+                            <td><%= order.numCopies %></td>
+                            <td><%= order.paperSize %></td>
+                            <td><%= order.printType %></td>
+                            <td><%= order.bindingOption %></td>
+                            <td><%= order.totalamount %></td>
+                            <td>
+                                <textarea name="comments" rows="5" style="width: 100%; font-size: 12px;" readonly><%= order.instruction %></textarea>
+                            </td>
+                            <form action="/update-order/<%= order._id %>" method="POST">
+                                <td>
+                                    <textarea name="remarks" rows="5" style="width: 100%; font-size: 12px;"><%= order.remarks || '' %></textarea>
+                                </td>
+                                <td>
+                                    <select name="completed">
+                                        <option value="Completed" <% if(order.completed === 'Completed') { %> selected <% } %>>Completed</option>
+                                        <option value="Not Completed" <% if(order.completed === 'Not Completed') { %> selected <% } %>>Not Completed</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="delivered">
+                                        <option value="Not Yet" <% if(order.delivered === 'Not Yet') { %> selected <% } %>>Not Yet</option>
+                                        <option value="Delivered" <% if(order.delivered === 'Delivered') { %> selected <% } %>>Delivered</option>
+                                        <option value="Not Applicable" <% if(order.delivered === 'Not Applicable') { %> selected <% } %>>Not Applicable</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button type="submit" class="update-btn">Update</button>
+                                </td>
+                            </form>
+                            <td>
+                                <!-- Delete Button -->
+                                <form action="/delete-order/<%= order._id %>" method="POST" style="display: inline;">
+                                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this order?');">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <p>No orders available.</p>
+    <% } %>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Previous Orders</title>
+  <link rel="stylesheet" href="/css-xerox-page2.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Previous Orders Information</h1>
+    
+    <!-- Table for displaying previous orders -->
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Document Title</th>
+          <th>Document</th>
+          <th>Copies</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Delevered</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (xerox.length > 0) { %>
+          <% xerox.forEach(request => { %>
+            <tr>
+              <td><%= request.firstName %></td>
+              <td><%= request.docTitle %></td>
+              <td><%= request.uploadDocument %></td>
+              <td><%= request.numCopies %></td>
+              <td>₹<%= request.totalamount %></td>
+              <td><%= request.completed %></td>
+              <td><%= request.delivered %></td>
+              <td><%= request.remarks %></td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td colspan="6">No orders found for this phone number.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Owner Login</title>
+    <link rel="stylesheet" href="/css-xerox-login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Shop Owner Login</h2>
+            <form action="/owner-login" method="post">
+                <!-- Login Form -->
+<form action="/login" method="POST">
+    <div class="input-group">
+        <label for="shopId">Shop ID</label>
+        <input type="text" id="shopId" name="shopId" required>
+    </div>
+    <button type="submit" class="login-btn">Login</button>
+</form>
+            <p class="register-text">
+                Don't have an account? <a onclick="window.location.href='/shop-register'">Register here</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

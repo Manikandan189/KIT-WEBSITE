@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Details</title>
+    <link rel="stylesheet" href="/css-xerox-page1.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Document Details</h2>
+
+        <!-- Document Details Section -->
+        <fieldset>
+            <legend>Document Details</legend>
+            <form id="documentForm" method="post" action="/DocumentInfo">
+                <div class="form-group">
+                    <label for="docTitle">Document Title:</label>
+                    <input type="text" id="docTitle" name="docTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="numPages">Number of Pages:</label>
+                    <input type="number" id="numPages" name="numPages" required oninput="calculatePrice()">
+                </div>
+                <div class="form-group">
+                    <label for="numCopies">Number of Copies:</label>
+                    <input type="number" id="numCopies" name="numCopies" required oninput="calculatePrice()">
+                </div>
+                <div class="form-group">
+                    <label for="paperSize">Paper Size:</label>
+                    <select id="paperSize" name="paperSize" onchange="calculatePrice()">
+                        <option value="A4">A4</option>
+                        <option value="Legal">Legal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="printType">Print Type:</label>
+                    <select id="printType" name="printType" onchange="calculatePrice()">
+                        <option value="bw">Black & White</option>
+                        <option value="color">Color</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bindingOption">Binding Option:</label>
+                    <select id="bindingOption" name="bindingOption" onchange="calculatePrice()">
+                        <option value="none">None</option>
+                        <option value="spiral">Spiral</option>
+                        <option value="hardcover">Hardcover</option>
+                    </select>
+                </div>
+
+                <!-- Upload Document Section -->
+                <div class="form-group">
+                    <label for="uploadDocument">Upload Document:</label>
+                    <input type="file" id="uploadDocument" name="uploadDocument" accept="application/pdf, image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="shopName">Select Shop:</label>
+                    <select id="shopName"  name="shopId" required>
+                      <option></option>
+                        <% shops.forEach(function(shop) { %>
+                            <option value="<%= shop._id %>" name="shopName"><%= shop.shopName %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <input id="totalamountid" name="totalamount" type="hidden">
+
+                <button type="submit">Next</button>
+            </form>
+        </fieldset>
+
+        <div id="priceDetails">
+            <h3>Total Price: ₹<span id="totalPrice">0.00</span></h3>
+            
+        </div>
+    </div>
+
+    <script>
+        let shopRates = {};
+      
+        async function fetchShopDetails(shopId) {
+          try {
+            const response = await fetch(`/getShopDetails/${shopId}`);
+            if (response.ok) {
+              shopRates = await response.json();
+              calculatePrice(); // Recalculate price after fetching shop details
+            } else {
+              console.error("Failed to fetch shop details");
+            }
+          } catch (error) {
+            console.error("Error fetching shop details:", error);
+          }
+        }
+      
+        function calculatePrice() {
+          var numPages = parseInt(document.getElementById('numPages').value) || 0;
+          var numCopies = parseInt(document.getElementById('numCopies').value) || 0;
+          var paperSize = document.getElementById('paperSize').value;
+          var printType = document.getElementById('printType').value;
+          var bindingOption = document.getElementById('bindingOption').value;
+      
+          var basePricePerPage = paperSize === "A4" ? shopRates.blackWhiteA4 : shopRates.blackWhiteA3;
+          if (printType === "color") {
+            basePricePerPage = paperSize === "A4" ? shopRates.colorA4 : shopRates.colorA3;
+          }
+      
+          var bindingPrice = 0;
+          if (bindingOption === "spiral") {
+            bindingPrice = shopRates.spiralBinding;
+          } else if (bindingOption === "hardcover") {
+            bindingPrice = shopRates.hardCoverBinding;
+          }
+      
+          var totalPrice = (numPages * numCopies * basePricePerPage) + bindingPrice;
+          document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
+          document.getElementById('totalamountid').value = totalPrice.toFixed(2);
+        }
+      
+        document.getElementById('shopName').addEventListener('change', function() {
+          var selectedShopId = this.value;
+          fetchShopDetails(selectedShopId);
+        });
+      
+        document.querySelectorAll('#numPages, #numCopies, #paperSize, #printType, #bindingOption')
+          .forEach(function(input) {
+            input.addEventListener('input', calculatePrice);
+          });
+        fetchShopDetails(document.getElementById('shopName').value);
+      </script>
+      
+      
+</body>
+</html>

@@ -170,10 +170,118 @@ const Feedbacks = new mongoose.Schema({
     }
 });
 
+
+const shop = new mongoose.Schema({
+    fullName: {
+        type: String,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    phonePrimary: {
+        type: String,
+        required: true
+    },
+    phoneAlternate: {
+        type: String
+    },
+    email: {
+        type: String,
+    },
+    shopName: {
+        type: String,
+        required: true
+    },
+    shopAddress: {
+        type: String,
+        required: true
+    },
+    freeDelivery: {
+        type: Boolean,
+        required: true
+    },
+    deliveryCharge: {
+        type: Number,
+        required: true
+    },
+    deliveryDays: {
+        type: String,
+        required: true
+    },
+    blackWhiteA4: {
+        type: String
+    },
+    blackWhiteA3: {
+        type: String
+    },
+    colorA4: {
+        type: String
+    },
+    colorA3: {
+        type: String
+    },
+    spiralBinding: {
+        type: String
+    },
+    hardCoverBinding: {
+        type: String
+    },
+    softCoverBinding: {
+        type: String
+    },
+    lamination: {
+        type: String
+    },
+    scanning: {
+        type: String
+    },
+    posters: {
+        type: String
+    },
+    businessCards: {
+        type: String
+    },
+    shopId: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true }); // Adds createdAt and updatedAt fields
+
+const xeroxRequestSchema = new mongoose.Schema({
+        identity: String,
+          firstName:String,
+          lastName: String,
+          email: String,
+          phone: String,
+          docTitle: String,
+          numPages: String,
+          numCopies:  String,
+          paperSize:  String,
+          printType:  String,
+          bindingOption:  String,
+          uploadDocument:  String,
+          shopId:String,
+          totalamount:Number,
+          instruction:  String,
+        paymentStatus:String,
+        remarks:String,
+        completed:String,
+        delivered:String,
+        reason:String
+        
+      
+});
+
+
+
+
 const Account = mongoose.model("Account", Student_Accounts);
 const Database = mongoose.model("Student", HOD_DB);
 const ToDatabase = mongoose.model("ToDatabase", Database1);
 const Feedback = mongoose.model("Feedback", Feedbacks);
+const xeroxRequests= mongoose.model("xerox", xeroxRequestSchema);
+const shopOwner= mongoose.model("Owners", shop);
 
-
-module.exports = { Account, Database, ToDatabase, Feedback };
+module.exports = { Account, Database, ToDatabase, Feedback,xeroxRequests,shopOwner };

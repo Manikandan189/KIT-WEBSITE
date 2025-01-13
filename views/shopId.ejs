@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shop ID</title>
+    <link rel="stylesheet" href="/css-shop-id.css">
+</head>
+<body>
+    <div class="shop-id-container">
+        <div class="shop-id-box">
+            <h2>Your Shop ID</h2>
+            <p>Congratulations! Your registration was successful. Below is your unique Shop ID, which you can use to log in:</p>
+            <div class="shop-id-display">
+                <!-- Display the Shop ID here -->
+                <span class="shop-id-number"><%= shopId %></span> <!-- Example ID -->
+            </div>
+            <p>Keep this ID safe for your future login.</p>
+            <button class="copy-id-btn" onclick="copyShopId()">Copy Shop ID</button>
+            <p id="copy-feedback"></p>
+        </div>
+    </div>
+
+    <!-- Background Image -->
+    <div class="background-image">
+        <img src="path_to_your_image.jpg" alt="Background Image">
+    </div>
+
+    <script>
+        // Function to copy the Shop ID to clipboard
+        function copyShopId() {
+            var shopIdText = document.querySelector('.shop-id-number').textContent;
+            navigator.clipboard.writeText(shopIdText).then(function() {
+                document.getElementById('copy-feedback').textContent = 'Shop ID copied to clipboard!';
+            }).catch(function() {
+                document.getElementById('copy-feedback').textContent = 'Failed to copy Shop ID.';
+            });
+        }
+    </script>
+</body>
+</html>

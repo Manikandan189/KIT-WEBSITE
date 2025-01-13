@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Owner Registration</title>
+    <link rel="stylesheet" href="/css-shop-register.css">
+</head>
+<body>
+    <div class="registration-container">
+        <div class="registration-box">
+            <h2>Shop Owner Registration</h2>
+            <form action="/shop-register" method="post">
+                <!-- Personal Details -->
+                <h3>1. Personal Details</h3>
+                <div class="input-group">
+                    <label for="fullName">Full Name (Required)</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="input-group">
+                    <label for="gender">Gender (Optional)</label>
+                    <select id="gender" name="gender">
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="phonePrimary">Phone Number (Primary, Required)</label>
+                    <input type="tel" id="phonePrimary" name="phonePrimary" required>
+                </div>
+                <div class="input-group">
+                    <label for="phoneAlternate">Phone Number (Alternate, Optional)</label>
+                    <input type="tel" id="phoneAlternate" name="phoneAlternate">
+                </div>
+                <div class="input-group">
+                    <label for="email">Email Address (Required)</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <!-- Shop Details -->
+                <h3>2. Shop Details</h3>
+                <div class="input-group">
+                    <label for="shopName">Shop Name (Required)</label>
+                    <input type="text" id="shopName" name="shopName" required>
+                </div>
+                <div class="input-group">
+                    <label for="shopAddress">Shop Address (Required)</label>
+                    <textarea id="shopAddress" name="shopAddress" rows="3" required></textarea>
+                </div>
+
+                <!-- Delivery Information -->
+                <h3>3. Delivery Information</h3>
+                <div class="input-group">
+                    <label for="freeDelivery">Free Delivery Provided?</label>
+                    <select id="freeDelivery" name="freeDelivery">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="deliveryCharge">Delivery Charge (if applicable)</label>
+                    <input type="text" id="deliveryCharge" name="deliveryCharge">
+                </div>
+                <div class="input-group">
+                    <label for="deliveryDays">Days for Delivery</label>
+                    <input type="text" id="deliveryDays" name="deliveryDays">
+                </div>
+
+                <!-- Pricing Information -->
+                <h3>4. Pricing Information</h3>
+                <div class="input-group">
+                    <label for="blackWhiteA4">Black & White Copies - A4 Per Page</label>
+                    <input type="text" id="blackWhiteA4" name="blackWhiteA4">
+                </div>
+                <div class="input-group">
+                    <label for="blackWhiteA3">Black & White Copies - A3 Per Page</label>
+                    <input type="text" id="blackWhiteA3" name="blackWhiteA3">
+                </div>
+                <div class="input-group">
+                    <label for="colorA4">Color Copies - A4 Per Page</label>
+                    <input type="text" id="colorA4" name="colorA4">
+                </div>
+                <div class="input-group">
+                    <label for="colorA3">Color Copies - A3 Per Page</label>
+                    <input type="text" id="colorA3" name="colorA3">
+                </div>
+                <div class="input-group">
+                    <label for="spiralBinding">Spiral Binding (per book)</label>
+                    <input type="text" id="spiralBinding" name="spiralBinding">
+                </div>
+                <div class="input-group">
+                    <label for="hardCoverBinding">Hard Cover Binding (per book)</label>
+                    <input type="text" id="hardCoverBinding" name="hardCoverBinding">
+                </div>
+                <div class="input-group">
+                    <label for="softCoverBinding">Soft Cover Binding (per book)</label>
+                    <input type="text" id="softCoverBinding" name="softCoverBinding">
+                </div>
+                <div class="input-group">
+                    <label for="lamination">Lamination (per page)</label>
+                    <input type="text" id="lamination" name="lamination">
+                </div>
+                <div class="input-group">
+                    <label for="scanning">Scanning (per page)</label>
+                    <input type="text" id="scanning" name="scanning">
+                </div>
+                <div class="input-group">
+                    <label for="posters">Posters (A2, A1, A0 Sizes)</label>
+                    <input type="text" id="posters" name="posters">
+                </div>
+                <div class="input-group">
+                    <label for="businessCards">Business Card Printing (per card)</label>
+                    <input type="text" id="businessCards" name="businessCards">
+                </div>
+
+                <button type="submit" class="register-btn" >Register</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
