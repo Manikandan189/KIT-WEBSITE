@@ -1,67 +1,165 @@
+/* General Styles */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     text-align: center;
-    background-color: #f4f4f4;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-    color: #444;
-}
-
-.container {
-    padding: 40px 20px;
-}
-
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
     color: #333;
 }
 
-.description {
-    margin: 20px auto;
-    max-width: 600px;
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: #555;
+.container {
+    padding: 40px 10px; /* Reduced padding */
+    max-width: 1000px; /* Reduced width */
+    width: 100%;
+    margin: 0 auto;
 }
 
+h1 {
+    font-size: 2em; /* Reduced font size */
+    margin-bottom: 15px; /* Reduced margin */
+    color: #2c3e50;
+}
+
+.description {
+    margin: 15px auto;
+    max-width: 700px; /* Slightly reduced max width */
+    font-size: 1em; /* Reduced font size */
+    line-height: 1.4; /* Slightly reduced line height */
+    color: #7f8c8d;
+}
+
+/* Buttons */
 .buttons {
-    margin: 40px auto;
+    margin: 30px auto; /* Reduced margin */
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 20px; /* Reduced gap */
 }
 
 .buttons button {
-    width: 200px;
-    height: 55px;
-    font-size: 1.1em;
+    width: 180px; /* Reduced width */
+    height: 45px; /* Reduced height */
+    font-size: 1em; /* Reduced font size */
+    font-weight: 600;
     border: none;
-    border-radius: 25px;
+    border-radius: 25px; /* Reduced border radius */
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+}
+
+.owner-btn, .buyer-btn {
+    color: white;
 }
 
 .owner-btn {
-    background-color: #007bff;
-    color: white;
+    background: linear-gradient(135deg, #007bff, #0056b3);
 }
 
 .buyer-btn {
-    background-color: #28a745;
-    color: white;
+    background: linear-gradient(135deg, #28a745, #1e7e34);
 }
 
 .owner-btn:hover {
-    background-color: #0056b3;
+    background: linear-gradient(135deg, #0056b3, #003d7a);
+    transform: translateY(-3px);
 }
 
 .buyer-btn:hover {
-    background-color: #1e7e34;
+    background: linear-gradient(135deg, #1e7e34, #155d27);
+    transform: translateY(-3px);
 }
 
 button:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Cards */
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Reduced gap */
+    margin-top: 70px; /* Reduced margin */
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card {
+    width: 280px; /* Reduced width */
+    height: 360px; /* Reduced height */
+    background-color: #ffffff;
+    border-radius: 15px; /* Reduced border radius */
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.7s ease-in-out, box-shadow 0.3s ease;
+    transform: translateX(100%);
+    padding: 15px; /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 15px; /* Reduced margin */
+}
+
+.card-img {
+    width: 100%;
+    height: 50%; /* Reduced height */
+    background-color: #ddd;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card-info {
+    padding: 10px;
+    text-align: left;
+}
+
+.text-title {
+    font-weight: 600;
+    font-size: 1.2em; /* Reduced font size */
+    color: #2c3e50;
+}
+
+.text-body {
+    font-size: 0.9em; /* Reduced font size */
+    color: #7f8c8d;
+}
+
+.card:hover {
+    transform: scale(1.03); /* Slightly reduced scaling */
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover .card-img {
+    transform: scale(1.08); /* Slightly reduced scaling */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em; /* Further reduced font size */
+    }
+
+    .description {
+        font-size: 0.9em; /* Further reduced font size */
+    }
+
+    .buttons button {
+        width: 160px; /* Further reduced width */
+        font-size: 0.9em; /* Further reduced font size */
+    }
+
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 85%; /* Reduced width for smaller screens */
+        margin: 15px 0;
+    }
 }

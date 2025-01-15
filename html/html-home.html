@@ -14,7 +14,16 @@
     <header class="header">
         <img src="/kit.png" class="kitlogo" alt="Logo">
         <h1 class="head_text">KIT-KALAIGNARKARUNANIDHI INSTITUTE OF TECHNOLOGY</h1>
-        <p class="head_xerox" id="xerox" onclick="window.location.href='/xeroxHome'" title="Students and teachers can access affordable xerox services with quick delivery.">Xerox</p>
+        <div class="head_xerox" id="custom-tooltip-container" onclick="window.location.href='/xeroxHome'">
+            <button class="custom-tooltip-btn">Xerox</button>
+            <div class="custom-tooltip-content">
+              <span class="custom-tooltip-arrow"></span>
+              <p class="custom-tooltip-text">
+                Most affordable prices for KIT College with fast delivery service.
+              </p>
+            </div>
+          </div>
+   
         <p class="head_status" id="status">Status</p>
         <div class="status_box" id="statuspop">
             <form>
@@ -54,6 +63,7 @@
         </div>
     </div>
 
+    
     <div class="footer">
         <div class="container">
             <div class="footer-content">

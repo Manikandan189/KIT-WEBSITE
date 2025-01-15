@@ -452,165 +452,315 @@ body, html {
   right: 20px;
 }
 
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+}
 
+.cards {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
 
-/* Media query for mobile view */
+.card {
+  min-width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+/* Base styles for larger screens are already defined above */
+
+/* Mobile View Adjustments */
 @media (max-width: 768px) {
-  /* General Layout Adjustments */
-  body {
-    background-image: url("/white.jpg");
-    background-size: cover; /* Ensure background is fully visible */
-    background-position: center;
-  }
-
-  /* Card Content Layout */
   .card-content {
-    display: grid;
-    grid-template-columns: 1fr; /* Stack the cards vertically */
+    grid-template-columns: 1fr; /* Single column layout */
     gap: 20px;
-    justify-content: center;
-    align-items: center;
-    padding: 20px; /* Space between cards */
   }
 
-  /* Card Style */
   .staff, .student, .principal, .admin {
-    position: relative;
-    width: 100%; /* Full width for mobile */
-    height: 200px; /* Set a fixed height */
-    background-color: rgba(255, 255, 255, 0.8); /* Transparent background */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for card */
-    overflow: hidden; /* Hide overflow for clean design */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+    height: 180px;
+    width: 160px;
+    margin-top: 20px;
   }
 
-  .staff:hover, .student:hover, .principal:hover, .admin:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
-  }
-
-  .staff .title, .student .title, .principal .title, .admin .title {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    color: #fff; /* White text */
-    font-size: 18px; /* Reduced font size */
-    font-weight: bold;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
-  }
-
-  .staff .description, .student .description, .principal .description, .admin .description {
-    position: absolute;
-    bottom: 50px;
-    left: 0;
-    right: 0;
-    color: #fff;
-    font-size: 12px; /* Reduced description font size */
-    font-weight: 300;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    padding: 0 15px;
-    transition: opacity 0.3s ease-in-out; /* Fade in/out effect */
-  }
-
-  /* Overlay Background */
-  .staff::before, .student::before, .principal::before, .admin::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4); /* Dark overlay for images */
-    z-index: 1;
-  }
-
-  .staff:hover .description, .student:hover .description, .principal:hover .description, .admin:hover .description {
-    opacity: 1; /* Show description on hover */
-  }
-
-  /* Header */
-  .header {
-    padding: 5px 15px; /* Reduced padding for a more compact header */
-    height: auto;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Slight background for header */
-    font-family: Arial, sans-serif; /* A more modern, professional font */
-  }
-  .kitlogo {
-    height: 5vh; /* Smaller logo for mobile */
-    margin-left: 0;
+  .student::after, .staff::after, .admin::after, .principal::after {
+    margin-top: 100px;
+    font-size: 16px;
   }
 
   .log {
-    font-size: 20px; /* Further reduced font size */
-    font-weight: 500; /* Semi-bold for better professional look */
-    padding-left: 15px;
+    font-size: 24px;
+    padding-left: 20px;
   }
 
   .log-border {
-    width: 70px; /* Reduced border width */
+    width: 80px;
+    margin-left: 20px;
   }
 
-  /* Footer adjustments */
-  .footer .container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  .header {
+    height: 8vh;
+    padding: 0 10px;
   }
 
   .footer .footer-section {
-    padding: 15px;
-    width: 100%;
+    padding: 10px;
   }
 
-  .footer .links ul {
-    padding-left: 0;
+  .footer .contact p, .footer .about p {
+    font-size: 0.9em;
   }
 
-  /* Social Links */
-  .footer .social .social-links a {
-    font-size: 1.1em; /* Slightly smaller font size for mobile */
-    margin: 0 6px;
-  }
-
-  /* Button adjustments */
-  .track_btn, .history_btn {
-    font-size: 11px; /* Smaller buttons for mobile */
-    width: 80%;
-    max-width: none;
-  }
-
-  .social-button {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
-    margin-top: 35px; /* Adjust spacing */
-  }
-
-  /* Popup windows */
   #statuspop, #historypop {
-    width: 90%; /* Full-width popups */
-    left: 5%;
-    top: 10%; /* Adjust top positioning */
-  }
-
-  /* Search box */
-  .search_text, .history_search_text {
-    font-size: 11px; /* Smaller font */
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
   }
 
   .search, .history {
-    font-size: 11px;
-    height: 25px;
+    width: 100%;
+    margin-top: 5px;
   }
+}
 
-  /* Hide elements if necessary */
-  .non-desktop-message {
-    display: block;
+#unique-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "bt-1 bt-2 bt-3" "bt-4 bt-5 bt-6";
+  position: relative;
+  perspective: 800;
+  padding: 0;
+  width: 135px;
+  height: 47px;
+  transition: all 0.3s ease-in-out;
+}
+
+#unique-container:active {
+  transform: scale(0.95);
+}
+
+#unique-container .hover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+}
+
+#unique-container .bt-1 { grid-area: bt-1; }
+#unique-container .bt-2 { grid-area: bt-2; }
+#unique-container .bt-3 { grid-area: bt-3; }
+#unique-container .bt-4 { grid-area: bt-4; }
+#unique-container .bt-5 { grid-area: bt-5; }
+#unique-container .bt-6 { grid-area: bt-6; }
+
+#unique-container .bt-1:hover ~ button {
+  transform: rotateX(15deg) rotateY(-15deg) rotateZ(0deg);
+  box-shadow: -2px -2px #18181888;
+}
+
+#unique-container .bt-1:hover ~ button::after {
+  animation: shake 0.5s ease-in-out 0.3s;
+  text-shadow: -2px -2px #18181888;
+}
+
+#unique-container .bt-3:hover ~ button {
+  transform: rotateX(15deg) rotateY(15deg) rotateZ(0deg);
+  box-shadow: 2px -2px #18181888;
+}
+
+#unique-container .bt-3:hover ~ button::after {
+  animation: shake 0.5s ease-in-out 0.3s;
+  text-shadow: 2px -2px #18181888;
+}
+
+#unique-container .bt-4:hover ~ button {
+  transform: rotateX(-15deg) rotateY(-15deg) rotateZ(0deg);
+  box-shadow: -2px 2px #18181888;
+}
+
+#unique-container .bt-4:hover ~ button::after {
+  animation: shake 0.5s ease-in-out 0.3s;
+  text-shadow: -2px 2px #18181888;
+}
+
+#unique-container .bt-6:hover ~ button {
+  transform: rotateX(-15deg) rotateY(15deg) rotateZ(0deg);
+  box-shadow: 2px 2px #18181888;
+}
+
+#unique-container .bt-6:hover ~ button::after {
+  animation: shake 0.5s ease-in-out 0.3s;
+  text-shadow: 2px 2px #18181888;
+}
+
+#unique-container .hover:hover ~ button::before {
+  background: transparent;
+}
+
+#unique-container .hover:hover ~ button::after {
+  content: "LOW PRICE 😀";
+  top: +150%;
+  transform: translate(-50%, 0);
+  font-size: 30px;
+  color: #f19c2b;
+}
+
+#unique-container button {
+  position: absolute;
+  padding: 0;
+  width: 90px;
+  height: 35px;
+  background: transparent;
+  font-size: 17px;
+  font-weight: 900;
+  border: 3px solid #f39923;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+}
+
+#unique-container button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 35px;
+  background-color: #f5ae51;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+  z-index: -1;
+}
+
+#unique-container button::after {
+  content: "Xerox";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 135px;
+  height: 47px;
+  background-color: transparent;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 47px;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+  z-index: 2;
+}
+
+@keyframes shake {
+  0% {
+    left: 45%;
   }
+  25% {
+    left: 54%;
+  }
+  50% {
+    left: 48%;
+  }
+  75% {
+    left: 52%;
+  }
+  100% {
+    left: 50%;
+  }
+}
+
+/* From Uiverse.io by BishalSaini */ 
+#custom-tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-tooltip-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #4a90e2; /* Light blue */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 8px 15px rgba(74, 144, 226, 0.4); /* Softer shadow */
+}
+
+.custom-tooltip-btn:hover {
+  background-color: #357ab7; /* Slightly darker blue */
+}
+
+.custom-tooltip-content {
+  position: absolute;
+  top: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+  opacity: 0;
+  width: 240px;
+  background: linear-gradient(135deg, #89c5ff 0%, #b3e5fc 100%); /* Light gradient */
+  color: #333; /* Dark text for contrast */
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+  border-radius: 15px;
+  transition: all 0.4s ease;
+  z-index: 1;
+  box-shadow: 0px 10px 20px rgba(137, 197, 255, 0.3); /* Softer shadow */
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+}
+
+#custom-tooltip-container:hover .custom-tooltip-content {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(10px);
+}
+
+.custom-tooltip-arrow {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #89c5ff; /* Light blue for arrow */
+}
+.custom-tooltip-btn {
+  background-color: #b3cde0; /* Powder blue */
+}
+
+.custom-tooltip-btn:hover {
+  background-color: #89a6c1; /* Slightly darker powder blue */
+}
+
+.custom-tooltip-content {
+  background: linear-gradient(135deg, #d1e9f7 0%, #e6e6fa 100%); /* Powder blue to soft lavender gradient */
+  color: #2a2a2a;
+}
+
+.custom-tooltip-arrow {
+  border-bottom: 10px solid #d1e9f7; /* Matching the tooltip gradient */
+}
+.custom-tooltip-text{
+  font-family: "Raleway Thin", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #333;
 }

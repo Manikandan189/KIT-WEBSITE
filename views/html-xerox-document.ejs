@@ -63,7 +63,7 @@
                         <% }); %>
                     </select>
                 </div>
-                <input id="totalamountid" name="totalamount" type="hidden">
+                <input id="totalamountid" name="totalamount"  type="hidden">
 
                 <button type="submit">Next</button>
             </form>
@@ -106,16 +106,25 @@
       
           var bindingPrice = 0;
           if (bindingOption === "spiral") {
-            bindingPrice = shopRates.spiralBinding;
+            bindingPrice = shopRates.spiralBinding*numCopies;
           } else if (bindingOption === "hardcover") {
-            bindingPrice = shopRates.hardCoverBinding;
+            bindingPrice = shopRates.hardCoverBinding*numCopies;
           }
       
           var totalPrice = (numPages * numCopies * basePricePerPage) + bindingPrice;
           document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
           document.getElementById('totalamountid').value = totalPrice.toFixed(2);
-        }
-      
+          // Store total price in localStorage
+  localStorage.setItem('totalAmount', totalPrice.toFixed(2));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const savedPrice = localStorage.getItem('totalAmount');
+  if (savedPrice) {
+    document.getElementById('totalPrice').innerText = savedPrice;
+    document.getElementById('totalamountid').value = savedPrice;
+  }
+});
         document.getElementById('shopName').addEventListener('change', function() {
           var selectedShopId = this.value;
           fetchShopDetails(selectedShopId);
@@ -125,7 +134,10 @@
           .forEach(function(input) {
             input.addEventListener('input', calculatePrice);
           });
+        
         fetchShopDetails(document.getElementById('shopName').value);
+        
+       
       </script>
       
       

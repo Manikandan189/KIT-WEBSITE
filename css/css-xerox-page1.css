@@ -391,3 +391,14 @@ button:disabled {
     max-width: 100%;
   }
 }
+
+.paymentContext {
+  font-size: 12px;
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+#totalPrice
+{
+  font: bold;
+}

@@ -1408,7 +1408,7 @@ app.post('/DocumentInfo', async (req, res) => {
         );
         await res.redirect('/Payment');
     } catch (error) {
-        res.status(500).send({ error: 'Failed to update document details.' });
+        res.status(500).send({ error: 'Do not worry, go back ,Refresh the page and try again 😇.' });
     }
 });
 
@@ -1436,7 +1436,7 @@ app.get('/Payment', async (req, res) => {
         const identity = req.session.identity;
         const tot = await xeroxRequests.findOne({ identity: identity });
         if (!tot) {
-            return res.status(404).send("Request not found");
+            return res.status(404).send("Time limit exceeded, do it from scratch");
         }
         console.log(tot.totalamount);
         const totalamount = tot.totalamount;

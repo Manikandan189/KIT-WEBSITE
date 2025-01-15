@@ -4,18 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xerox Shop Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css-xerox-home.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Our Xerox Website</h1>
+        <h1>Welcome to Our Xerox Service</h1>
         <p class="description">
-            Offers very low-priced, high-quality printing with fast delivery and free delivery on select orders. This website provides a user-friendly platform that makes ordering quick and easy, delivering reliable solutions for your business needs at unbeatable value.
+            We offer premium, low-priced printing with quick delivery and free delivery on select orders. Order with ease and receive efficient and dependable solutions for all your business needs.
         </p>
+        
         <div class="buttons">
             <button class="owner-btn" onclick="window.location.href='/owner-login'">Shop Owner</button>
-            <button class="buyer-btn" onclick="window.location.href='/PersonalDetails'">Buyer</button>
+            <button class="buyer-btn" onclick="window.location.href='/PersonalDetails'">User</button>
+        </div>
+        
+        <div class="cards-container">
+            <div class="card" id="card1">
+                <img class="card-img" src="/processs.jpg" id="card1img" alt="Process">
+                <div class="card-info">
+                    <p class="text-title">Process</p>
+                    <p class="text-body">Fill in your details, including delivery address, and confirm your order.</p>
+                </div>
+            </div>
+
+            <div class="card" id="card2">
+                <img class="card-img" src="/xerox.png" id="card2img" alt="Time Taken">
+                <div class="card-info">
+                    <p class="text-title">Time Taken</p>
+                    <p class="text-body">Your order will be processed and delivered within 24 hours.</p>
+                </div>
+            </div>
+
+            <div class="card" id="card3">
+                <img class="card-img" src="/delivery.png" alt="Delivery">
+                <div class="card-info">
+                    <p class="text-title">Delivery</p>
+                    <p class="text-body">Free delivery on selected orders. For others, a nominal delivery fee applies.</p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        window.onload = function() {
+            const cards = document.querySelectorAll('.card');
+            let delay = 0;
+            cards.forEach(card => {
+                setTimeout(() => {
+                    card.style.transform = 'translateX(0)';
+                }, delay);
+                delay += 500;
+            });
+        };
+    </script>
 </body>
 </html>
