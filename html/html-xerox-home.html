@@ -10,6 +10,7 @@
 <body>
     <div class="container">
         <h1>Welcome to Our Xerox Service</h1>
+        
         <p class="description">
             We offer premium, low-priced printing with quick delivery and free delivery on select orders. Order with ease and receive efficient and dependable solutions for all your business needs.
         </p>
@@ -22,35 +23,79 @@
         <div class="cards-container">
             <div class="card" id="card1">
                 <img class="card-img" src="/processs.jpg" id="card1img" alt="Process">
+                <video class="card-video" src="/processvid.mov" ></video>
+
                 <div class="card-info">
                     <p class="text-title">Process</p>
                     <p class="text-body">Fill in your details, including delivery address, and confirm your order.</p>
                 </div>
             </div>
-
+            
             <div class="card" id="card2">
                 <img class="card-img" src="/xerox.png" id="card2img" alt="Time Taken">
+                <video class="card-video" src="/timetaken.mp4" ></video>
                 <div class="card-info">
                     <p class="text-title">Time Taken</p>
-                    <p class="text-body">Your order will be processed and delivered within 24 hours.</p>
+                    <p class="text-body">Your order will be processed and delivered on the same day or within 24 hours.</p>
                 </div>
             </div>
-
+            
             <div class="card" id="card3">
                 <img class="card-img" src="/delivery.png" alt="Delivery">
+                <video class="card-video" src="/delivery.mp4"></video>
                 <div class="card-info">
                     <p class="text-title">Delivery</p>
                     <p class="text-body">Free delivery on selected orders. For others, a nominal delivery fee applies.</p>
                 </div>
             </div>
         </div>
-    </div>
-
+        </div>
+        <div class="faq-container">
+            <h2>Common Questions</h2>
+            <div class="faq-item">
+                <p class="faq-question">1. Why should I choose this website over offline shops?</p>
+                <p class="faq-answer">Our platform provides very low and affordable prices for college-related Xerox services, making it a better option compared to offline shops. You can order Xerox services online with a minimum amount of ₹10, offering more flexibility and convenience.</p>
+            </div>
+            <div class="faq-item">
+                <p class="faq-question">2.How secure are my personal and payment details?</p>
+                <p class="faq-answer">Your personal and payment details are securely encrypted to ensure your privacy and safety during transactions.</p>
+            </div>
+            <div class="faq-item">
+                <p class="faq-question">3. How many days will it take for my order to reach me?</p>
+                <p class="faq-answer">Your order will be delivered on the same day, and in rare cases, it will be delivered within 24 hours. For orders above ₹150, no delivery fee will be charged. For orders below ₹150, a delivery fee of ₹20-25 will apply.</p>
+            </div>
+            <div class="faq-item">
+                <p class="faq-question">4. How can I contact the website owner if I have any problems?</p>
+                <p class="faq-answer">You can contact the website owner anytime through phone at 7395851198, via email at manio91m1@gmail.com, or through Instagram at mani_.091. Feel free to reach out, and your questions or concerns will be answered promptly.</p>
+            </div>
+        </div>
+        
+    
     <script>
         window.onload = function() {
             const cards = document.querySelectorAll('.card');
             let delay = 0;
             cards.forEach(card => {
+                const video = card.querySelector('.card-video');
+                const audio = card.querySelector('.card-audio'); // Assuming there's an audio element inside the card
+    
+                card.addEventListener('mouseover', () => {
+                    video.muted = false;   // Unmute the video to ensure audio plays
+                    video.volume = 1;      // Set the volume to 100% (or any value between 0 and 1)
+                    video.loop = true;     // Enable looping if needed
+                    video.play();          // Play the video with audio
+});
+
+    
+                card.addEventListener('mouseout', () => {
+                    video.pause();
+                    video.currentTime = 0; // Reset the video to the start
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0; // Reset the audio to the start
+                    }
+                });
+    
                 setTimeout(() => {
                     card.style.transform = 'translateX(0)';
                 }, delay);
@@ -58,5 +103,7 @@
             });
         };
     </script>
+    
+    
 </body>
 </html>

@@ -536,153 +536,6 @@ body, html {
   }
 }
 
-#unique-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas: "bt-1 bt-2 bt-3" "bt-4 bt-5 bt-6";
-  position: relative;
-  perspective: 800;
-  padding: 0;
-  width: 135px;
-  height: 47px;
-  transition: all 0.3s ease-in-out;
-}
-
-#unique-container:active {
-  transform: scale(0.95);
-}
-
-#unique-container .hover {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 200;
-}
-
-#unique-container .bt-1 { grid-area: bt-1; }
-#unique-container .bt-2 { grid-area: bt-2; }
-#unique-container .bt-3 { grid-area: bt-3; }
-#unique-container .bt-4 { grid-area: bt-4; }
-#unique-container .bt-5 { grid-area: bt-5; }
-#unique-container .bt-6 { grid-area: bt-6; }
-
-#unique-container .bt-1:hover ~ button {
-  transform: rotateX(15deg) rotateY(-15deg) rotateZ(0deg);
-  box-shadow: -2px -2px #18181888;
-}
-
-#unique-container .bt-1:hover ~ button::after {
-  animation: shake 0.5s ease-in-out 0.3s;
-  text-shadow: -2px -2px #18181888;
-}
-
-#unique-container .bt-3:hover ~ button {
-  transform: rotateX(15deg) rotateY(15deg) rotateZ(0deg);
-  box-shadow: 2px -2px #18181888;
-}
-
-#unique-container .bt-3:hover ~ button::after {
-  animation: shake 0.5s ease-in-out 0.3s;
-  text-shadow: 2px -2px #18181888;
-}
-
-#unique-container .bt-4:hover ~ button {
-  transform: rotateX(-15deg) rotateY(-15deg) rotateZ(0deg);
-  box-shadow: -2px 2px #18181888;
-}
-
-#unique-container .bt-4:hover ~ button::after {
-  animation: shake 0.5s ease-in-out 0.3s;
-  text-shadow: -2px 2px #18181888;
-}
-
-#unique-container .bt-6:hover ~ button {
-  transform: rotateX(-15deg) rotateY(15deg) rotateZ(0deg);
-  box-shadow: 2px 2px #18181888;
-}
-
-#unique-container .bt-6:hover ~ button::after {
-  animation: shake 0.5s ease-in-out 0.3s;
-  text-shadow: 2px 2px #18181888;
-}
-
-#unique-container .hover:hover ~ button::before {
-  background: transparent;
-}
-
-#unique-container .hover:hover ~ button::after {
-  content: "LOW PRICE 😀";
-  top: +150%;
-  transform: translate(-50%, 0);
-  font-size: 30px;
-  color: #f19c2b;
-}
-
-#unique-container button {
-  position: absolute;
-  padding: 0;
-  width: 90px;
-  height: 35px;
-  background: transparent;
-  font-size: 17px;
-  font-weight: 900;
-  border: 3px solid #f39923;
-  border-radius: 12px;
-  transition: all 0.3s ease-in-out;
-}
-
-#unique-container button::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90px;
-  height: 35px;
-  background-color: #f5ae51;
-  border-radius: 12px;
-  transition: all 0.3s ease-in-out;
-  z-index: -1;
-}
-
-#unique-container button::after {
-  content: "Xerox";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 135px;
-  height: 47px;
-  background-color: transparent;
-  font-size: 17px;
-  font-weight: 900;
-  line-height: 47px;
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  transition: all 0.3s ease-in-out;
-  z-index: 2;
-}
-
-@keyframes shake {
-  0% {
-    left: 45%;
-  }
-  25% {
-    left: 54%;
-  }
-  50% {
-    left: 48%;
-  }
-  75% {
-    left: 52%;
-  }
-  100% {
-    left: 50%;
-  }
-}
-
 /* From Uiverse.io by BishalSaini */ 
 #custom-tooltip-container {
   position: relative;
@@ -699,7 +552,7 @@ body, html {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  box-shadow: 0 8px 15px rgba(74, 144, 226, 0.4); /* Softer shadow */
+  box-shadow: 0 8px 15px rgba(121, 121, 121, 0.4); 
 }
 
 .custom-tooltip-btn:hover {
@@ -714,16 +567,30 @@ body, html {
   visibility: hidden;
   opacity: 0;
   width: 240px;
-  background: linear-gradient(135deg, #89c5ff 0%, #b3e5fc 100%); /* Light gradient */
-  color: #333; /* Dark text for contrast */
+  background: linear-gradient(135deg, #89c5ff 0%, #b3e5fc 100%); 
+  color: #333;
   text-align: center;
   padding: 15px;
   font-size: 14px;
   border-radius: 15px;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
   z-index: 1;
-  box-shadow: 0px 10px 20px rgba(137, 197, 255, 0.3); /* Softer shadow */
-  clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+  box-shadow: 0px 10px 20px rgba(93, 93, 93, 0.3);
+  /* clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%); */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 #custom-tooltip-container:hover .custom-tooltip-content {
@@ -752,7 +619,7 @@ body, html {
 }
 
 .custom-tooltip-content {
-  background: linear-gradient(135deg, #d1e9f7 0%, #e6e6fa 100%); /* Powder blue to soft lavender gradient */
+  background: linear-gradient(135deg, #d1e9f7 0%, #e6e6fa 100%); 
   color: #2a2a2a;
 }
 

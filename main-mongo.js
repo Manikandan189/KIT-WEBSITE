@@ -1218,6 +1218,25 @@ app.get('/History/DownloadQR/:id', async (req, res) => {
 
 // xerox field
 
+app.get('/Admin',async (req, res) => {
+    try {
+        const requests=await xeroxRequests.find();
+        res.render('xeroxAdmin',{requests:requests});
+    } catch (error) {
+        res.status(500).send({ message: "Failed to fetch data", error });
+    }
+});
+
+app.delete('/Admin/delete/:id', async (req, res) => {
+    try {
+        const requestId = req.params.id;
+        await xeroxRequests.findByIdAndDelete(requestId);
+        res.status(200).send({ message: "Request deleted successfully" });
+    } catch (error) {
+        res.status(500).send({ message: "Failed to delete request", error });
+    }
+});
+
 
 app.get('/xeroxHome', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-xerox-home.html'));

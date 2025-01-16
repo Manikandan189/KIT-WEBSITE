@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xerox Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .actions {
+            text-align: center;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+    <script>
+        function searchTable() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const table = document.getElementById('requestsTable');
+            const rows = table.getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerHTML.toLowerCase().includes(input)) {
+                        match = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = match ? '' : 'none';
+            }
+        }
+
+        function deleteRow(requestId) {
+            if (confirm('Are you sure you want to delete this request?')) {
+                fetch(`/Admin/delete/${requestId}`, {
+                    method: 'DELETE'
+                }).then(response => {
+                    if (response.ok) {
+                        alert('Request deleted successfully.');
+                        location.reload();
+                    } else {
+                        alert('Failed to delete the request.');
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Xerox Requests</h1>
+    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for requests...">
+
+    <table id="requestsTable">
+        <thead>
+            <tr>
+                <th>Identity</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Document Title</th>
+                <th>Number of Pages</th>
+                <th>Number of Copies</th>
+                <th>Paper Size</th>
+                <th>Print Type</th>
+                <th>Binding Option</th>
+                <th>Shop ID</th>
+                <th>Total Amount</th>
+                <th>Instruction</th>
+                <th>Payment Status</th>
+                <th>Remarks</th>
+                <th>Completed</th>
+                <th>Delivered</th>
+                <th>Reason</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% requests.forEach(request => { %>
+                <tr>
+                    <td><%= request.identity %></td>
+                    <td><%= request.firstName %></td>
+                    <td><%= request.lastName %></td>
+                    <td><%= request.email %></td>
+                    <td><%= request.phone %></td>
+                    <td><%= request.docTitle %></td>
+                    <td><%= request.numPages %></td>
+                    <td><%= request.numCopies %></td>
+                    <td><%= request.paperSize %></td>
+                    <td><%= request.printType %></td>
+                    <td><%= request.bindingOption %></td>
+                    <td><%= request.shopId %></td>
+                    <td><%= request.totalamount %></td>
+                    <td><%= request.instruction %></td>
+                    <td><%= request.paymentStatus %></td>
+                    <td><%= request.remarks %></td>
+                    <td><%= request.completed %></td>
+                    <td><%= request.delivered %></td>
+                    <td><%= request.reason %></td>
+                    <td class="actions">
+                        <button class="delete-btn" onclick="deleteRow('<%= request._id %>')">Delete</button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
+ 
