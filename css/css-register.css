@@ -200,13 +200,6 @@ label {
   animation: slideInUp .7s ease-out;
 }
 
-/* Optional: add this to ensure the boxes are initially off-screen */
-/* .status_box, .history_box {
-  transform: translateX(100%);
-  opacity: 0;
-} */
-
-
 .search_text, .history_search_text {
   font-family: "Raleway SemiBold", sans-serif;
   font-size: 14px;
@@ -263,21 +256,6 @@ footer{
   
   margin-left: 20px;
 }
-/* .contact-section, .developer_details {
-  margin: 20px 0;
-} */
-
-/* .contact-section h2, .developer_details h2 {
-  margin-bottom: 10px;
-} */
-
-/* .contact-form input, .contact-form button {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  width: 80%;
-  max-width: 400px;
-} */
 
 .contact-form input {
   border-radius: 5px;
@@ -344,14 +322,9 @@ footer{
   flex: 1;
   padding: 20px;
   
-  /* min-width: 250px; */
+
 }
 
-/* .footer .logo-text {
-  font-size: 2em;
-  font-weight: 600;
-  color: #333;
-} */
 
 .footer .about p {
   font-size: 1.1em;
@@ -402,95 +375,9 @@ footer{
   margin-top: 20px;
 }
 
-.navigation_bar
-{
-  
-}
-
-@media (max-width: 768px) {
-  .footer .container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .footer .footer-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .footer .footer-section {
-    padding: 20px 0;
-  }
-}
 
 
 
-
-
-
-/* .header { 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #f8f9fa; 
-  border-bottom: 1px solid #ddd;
-  position: relative;
-} */
-
-/* .hamburger {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-
-.hamburger span {
-  width: 90%;
-  height: 1.5px;
-  background-color: #111111;
-}
-
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -250px;
-  width: 200px;
-  height:50%;
-  border-radius: 0% 0% 30% 0%;
-  background-color: #ffffff;
-  overflow-x: hidden;
-  transition: 0.5s;
-  border:1px solid #111111;
-  padding-top: 60px;
-}
-
-.side-menu ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.side-menu ul li {
-  padding: 8px 16px;
-  text-align: left;
-}
-
-.side-menu ul li a {
-  text-decoration: none;
-  color: #333;
-  font-family: "Raleway", sans-serif;
-  font-size: 14pt;
-}
-
-/* .side-menu ul li a:hover {
-  color: #007bff; 
-} */
-
-/* .side-menu.show {
-  left: 0;
-} */
 
 .hamburger {
   display: flex;
@@ -565,4 +452,47 @@ footer{
 .email ,.link{
   height: 32px;
   width: 32px;
+}
+
+
+@media (max-width: 768px) {
+  .mainForm{
+    width: 80%;
+  }
+  .card-container{
+    width: 200%;
+  }
+  .head_text {
+    font-size: 0px;
+}
+
+.head_text::before {
+    content: "KIT";
+    font-size: 20px;
+}
+.input-box, .selectopt, .date-input-box {
+  width: calc(100% - 20%);
+  padding: 10px;
+  margin: 5px 0 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-family: "Raleway", sans-serif;
+  font-size: 9pt;
+  background: #ffffff;
+}
+.footer {
+  font-size:0px;
+  margin: 10px 0;
+}
+.email ,.link{
+  height: 0px;
+  width: 0px;
+}
+.register-title {
+  font-size: 10px;
+  
+}
+.line {
+  width: 200px;
+}
 }

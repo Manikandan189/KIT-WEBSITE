@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const PDFDocument = require('pdfkit');
 const { v4: uuidv4 } = require('uuid');
 const session = require('express-session');
-const {Account,Database,ToDatabase,Feedback,xeroxRequests,shopOwner}=require('./schema-mongo');
+const {Account,Database,ToDatabase,Feedback,xeroxRequests,shopOwner,Admin,earnings}=require('./schema-mongo');
 const bcrypt = require('bcrypt');
 require('dotenv').config({path: './ImportantLinks.env'});
 
@@ -1220,8 +1220,16 @@ app.get('/History/DownloadQR/:id', async (req, res) => {
 
 app.get('/Admin',async (req, res) => {
     try {
-        const requests=await xeroxRequests.find();
+        const requests=await Admin.find();
         res.render('xeroxAdmin',{requests:requests});
+    } catch (error) {
+        res.status(500).send({ message: "Failed to fetch data", error });
+    }
+});
+app.get('/AdminShops',async (req, res) => {
+    try {
+        const shops=await earnings.find();
+        res.render('AdminShop',{shops:shops});
     } catch (error) {
         res.status(500).send({ message: "Failed to fetch data", error });
     }
@@ -1230,7 +1238,7 @@ app.get('/Admin',async (req, res) => {
 app.delete('/Admin/delete/:id', async (req, res) => {
     try {
         const requestId = req.params.id;
-        await xeroxRequests.findByIdAndDelete(requestId);
+        await Admin.findByIdAndDelete(requestId);
         res.status(200).send({ message: "Request deleted successfully" });
     } catch (error) {
         res.status(500).send({ message: "Failed to delete request", error });
@@ -1265,19 +1273,62 @@ app.post('/owner-login', async (req, res) => {
 
 app.get('/owner-Dashboard', async (req, res) => {
     const shopId = req.session.owner;
-    
+
+    // Redirect to login if shopId is not found in session
     if (!shopId) {
         return res.redirect('/owner-login');
     }
 
     try {
-        const orders = await xeroxRequests.find({ shopId: shopId ,paymentStatus:"paid"});
+        // Fetch orders with "paid" payment status for the specific shopId
+        const orders = await xeroxRequests.find({ shopId: shopId, paymentStatus: "paid" });
         console.log(shopId);
-        res.render('Orders_requests', {orders});
+        // Fetch earnings data for the specific shopId
+        const amount = await earnings.findOne({ shopId: shopId });
+
+        // If earnings not found, default to 0
+        const totalAmount = amount ? amount.totalEarns : 0;
+        const weekAmount = amount ? amount.weekEarnings : 0;
+
+        // Render orders page with the fetched data
+        res.render('Orders_requests', { orders, total: totalAmount,week:weekAmount ,shopId:shopId});
     } catch (error) {
-        res.status(500).send({ message: "Failed to fetch orders", error });
+        // Log the error for debugging
+        console.error("Error fetching orders or earnings: ", error);
+
+        // Send a response with the error message
+        res.status(500).send({ message: "Failed to fetch orders", error: error.message });
     }
 });
+
+
+app.post('/clear/:id', async (req, res) => {
+    try {
+        const shopId = req.params.id;
+        console.log(shopId);
+        const earningsData = await earnings.findOne({ shopId: shopId });
+
+        if (!earningsData) {
+            return res.status(404).send({ error: 'Earnings data not found for this shop.' });
+        }
+
+        earningsData.totalEarns += earningsData.weekEarnings;
+        earningsData.weekEarnings = 0;
+        await earningsData.save();
+
+        res.redirect('/Adminshops');
+    } catch (error) {
+        console.error('Failed to clear the data:', error);
+    }
+});
+
+
+
+
+
+
+
+
 
 
 app.get('/shop-register', (req, res) => {
@@ -1500,7 +1551,7 @@ app.post('/update-order/:id', async (req, res) => {
             { _id: orderId },
             {
                 $set: {
-                    remarks,  // Corrected the typo here
+                    remarks,  
                     completed,
                     delivered
                 }
@@ -1513,16 +1564,46 @@ app.post('/update-order/:id', async (req, res) => {
     }
 });
 
-app.post('/delete-order/:id', async (req, res) => {
+
+
+app.post('/send-order/:id', async (req, res) => {
     try {
         const orderId = req.params.id;
-        await xeroxRequests.findByIdAndDelete(orderId);  // Delete the order by ID
-        res.redirect('/owner-dashboard');  // Redirect back to the dashboard after deletion
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Error deleting order");
+        const complete = await xeroxRequests.findById(orderId);
+
+        if (!complete) {
+            return res.status(404).send({ message: "Request not found" });
+        }
+
+        const { identity, firstName, lastName, email, phone, docTitle, numPages, numCopies, paperSize, printType, bindingOption, uploadDocument, shopId, totalamount, instruction, paymentStatus, remarks, completed, delivered, reason } = complete;
+        const admindatabase = new Admin({
+            identity, firstName, lastName, email, phone, docTitle, numPages, numCopies, paperSize, printType, bindingOption, uploadDocument, shopId, totalamount, instruction, paymentStatus, remarks, completed, delivered, reason
+        });
+        await admindatabase.save();
+        const shop=await shopOwner.findOne({_id:complete.shopId});
+
+        let amount = await earnings.findOne({ shopId: complete.shopId });
+        if (!amount) {
+            amount = new earnings({
+                shopName:shop.shopName,
+                shopId: complete.shopId,
+                totalEarns: 0,
+                weekEarnings:0
+            });
+            await amount.save();
+        }
+        amount.weekEarnings += complete.totalamount;
+        await amount.save();
+        await xeroxRequests.findByIdAndDelete(orderId);
+        res.redirect('/owner-Dashboard');
+    } catch (error) {
+        console.error("Error processing the order: ", error);
+        res.status(500).send({ message: "Failed to process request", error: error.message });
     }
 });
+
+
+
 
 
 

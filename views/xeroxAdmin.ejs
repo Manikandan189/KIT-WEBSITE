@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            position: relative;
         }
         h1 {
             text-align: center;
@@ -52,12 +53,23 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        #totalAmount {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2em;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
     </style>
     <script>
         function searchTable() {
             const input = document.getElementById('searchInput').value.toLowerCase();
             const table = document.getElementById('requestsTable');
             const rows = table.getElementsByTagName('tr');
+            let totalAmount = 0;
             for (let i = 1; i < rows.length; i++) {
                 const cells = rows[i].getElementsByTagName('td');
                 let match = false;
@@ -68,7 +80,15 @@
                     }
                 }
                 rows[i].style.display = match ? '' : 'none';
+                if (match) {
+                    const amountCell = rows[i].getElementsByTagName('td')[12]; // 12 is the index of the 'Total Amount' column
+                    if (amountCell) {
+                        const amount = parseFloat(amountCell.innerText.replace('₹', '')) || 0;
+                        totalAmount += amount;
+                    }
+                }
             }
+            document.getElementById('totalAmount').innerText = `Total Amount: ₹${totalAmount.toFixed(2)}`;
         }
 
         function deleteRow(requestId) {
@@ -85,10 +105,15 @@
                 });
             }
         }
+
+        window.onload = function() {
+            searchTable(); // Calculate total amount on page load
+        };
     </script>
 </head>
 <body>
     <h1>Xerox Requests</h1>
+    <div id="totalAmount">Total Amount: ₹0.00</div>
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for requests...">
 
     <table id="requestsTable">
@@ -131,7 +156,7 @@
                     <td><%= request.printType %></td>
                     <td><%= request.bindingOption %></td>
                     <td><%= request.shopId %></td>
-                    <td><%= request.totalamount %></td>
+                    <td>₹<%= request.totalamount %></td>
                     <td><%= request.instruction %></td>
                     <td><%= request.paymentStatus %></td>
                     <td><%= request.remarks %></td>
@@ -147,4 +172,3 @@
     </table>
 </body>
 </html>
- 

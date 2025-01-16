@@ -180,8 +180,8 @@ option {
     font-size: 14px;
 }
 /* Style for delete button */
-.delete-btn {
-    background-color: #e74c3c;
+.send-btn {
+    background-color: #70a8fb;
     color: #fff;
     padding: 8px 15px;
     border: none;

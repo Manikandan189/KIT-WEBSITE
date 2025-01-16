@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Shop Earnings</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Add your stylesheet here -->
+</head>
+<body>
+    <h1>Admin Shop Earnings</h1>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Shop Name</th>
+                <th>Shop ID</th>
+                <th>Total Earnings</th>
+                <th>Week Earnings</th>
+                <th>Action</th> <!-- Column for the Clear button -->
+            </tr>
+        </thead>
+        <tbody>
+            <% shops.forEach(shop => { %>
+                <tr>
+                    <td><%= shop.shopName %></td>
+                    <td><%= shop.shopId %></td>
+                    <td><%= shop.totalEarns %></td>
+                    <form action="/clear/<%=shop.shopId%>" method="post">
+                    <td><%= shop.weekEarnings %></td>
+                    <td><button type="submit">Clear</button></td></form> <!-- Clear button -->
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

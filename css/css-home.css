@@ -278,6 +278,7 @@ body, html {
 
 .footer .footer-bottom {
   background-color: #5e5e5e; 
+  font-family: "Raleway Thin", Arial, Helvetica, sans-serif;
   color: #ffffff;
   text-align: center;
   padding: 20px 0;
@@ -363,7 +364,7 @@ body, html {
   font-size: 24px;
   cursor: pointer;
   transition: background-color 0.3s;
-  background-image: url('mani.png'); /* Add your image path here */
+  background-image: url('mani.png');
   background-size: cover;
   background-position: center;
   margin-top: 65px;
@@ -484,6 +485,33 @@ body, html {
 
 /* Mobile View Adjustments */
 @media (max-width: 768px) {
+  .head_text {
+    font-size: 0px;
+}
+
+.head_text::before {
+    content: "KIT";
+    font-size: 20px;
+}
+.social-button {
+  /* position: relative; */
+  width: 35px;
+  height: 35px;
+  /* border-radius: 50%; */
+  /* color: white; */
+  /* text-align: center; */
+  /* line-height: 50px; */
+  font-size: 15px;
+  /* cursor: pointer; */
+  /* transition: background-color 0.3s;
+  background-image: url('mani.png');
+  background-size: cover;
+  background-position: center; */
+  margin-top: 35px;
+  margin-left: 0px;
+}
+
+
   .card-content {
     grid-template-columns: 1fr; /* Single column layout */
     gap: 20px;
@@ -507,7 +535,7 @@ body, html {
 
   .log-border {
     width: 80px;
-    margin-left: 20px;
+    margin-left: 10px;
   }
 
   .header {
@@ -516,11 +544,11 @@ body, html {
   }
 
   .footer .footer-section {
-    padding: 10px;
+    padding: 7px;
   }
 
-  .footer .contact p, .footer .about p {
-    font-size: 0.9em;
+  .footer .contact p, .footer .about p,.footer .links a {
+    font-size: 0.6em;
   }
 
   #statuspop, #historypop {

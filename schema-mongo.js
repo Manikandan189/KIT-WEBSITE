@@ -274,7 +274,37 @@ const xeroxRequestSchema = new mongoose.Schema({
       
 });
 
+const xeroxadmindatabase= new mongoose.Schema({
+    identity: String,
+      firstName:String,
+      lastName: String,
+      email: String,
+      phone: String,
+      docTitle: String,
+      numPages: String,
+      numCopies:  String,
+      paperSize:  String,
+      printType:  String,
+      bindingOption:  String,
+      uploadDocument:  String,
+      shopId:String,
+      totalamount:Number,
+      instruction:  String,
+    paymentStatus:String,
+    remarks:String,
+    completed:String,
+    delivered:String,
+    reason:String
+    
+  
+});
 
+const money=new mongoose.Schema({
+    shopName:String,
+    shopId:String,
+    totalEarns:Number,
+    weekEarnings:Number
+});
 
 
 const Account = mongoose.model("Account", Student_Accounts);
@@ -283,5 +313,7 @@ const ToDatabase = mongoose.model("ToDatabase", Database1);
 const Feedback = mongoose.model("Feedback", Feedbacks);
 const xeroxRequests= mongoose.model("xerox", xeroxRequestSchema);
 const shopOwner= mongoose.model("Owners", shop);
+const Admin= mongoose.model("adminxerox",xeroxadmindatabase);
+const earnings= mongoose.model("total",money);
 
-module.exports = { Account, Database, ToDatabase, Feedback,xeroxRequests,shopOwner };
+module.exports = { Account, Database, ToDatabase, Feedback,xeroxRequests,shopOwner ,Admin,earnings};
