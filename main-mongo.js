@@ -10,7 +10,6 @@ const session = require('express-session');
 const {Account,Database,ToDatabase,Feedback,xeroxRequests,shopOwner,Admin,earnings}=require('./schema-mongo');
 const bcrypt = require('bcrypt');
 require('dotenv').config({path: './ImportantLinks.env'});
-
 const app=express()
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,22 +20,22 @@ app.use(express.static('img'));
 
 async function run() {
     try {
-      // Connect to MongoDB
-      await mongoose.connect(process.env.uri); // No additional options needed
+      await mongoose.connect(process.env.uri); 
       console.log("Connected successfully to MongoDB!");
     } catch (error) {
       console.error("Error connecting to MongoDB:", error.message);
     }
   }
-  
-  // Call the run function
   run();
 
-app.use(session({
-    secret: 'ChangeLaterNoNeedNow',
+  app.use(session({
+    secret: 'ChangeLaterNoNeedNow', 
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }    
+    cookie: { 
+        secure: false,  
+        maxAge: 10 * 60 * 1000 // 10 minutes (in milliseconds)
+    }
 }));
 
 app.get('/', (req, res) => {
@@ -47,7 +46,7 @@ app.get('/Departments', (req, res) => {
 });
 
 
-app.get('/Admin_options', (req, res) => {
+app.get('/Admin_options',ensureLoggedInAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-admin-options.html'));
 });
 
@@ -86,7 +85,7 @@ app.get('/Database', async (req, res) => {
 
 
 // Make the route handler async
-app.get('/Accounts', async (req, res) => {
+app.get('/Accounts', ensureLoggedInAdmin,async (req, res) => {
     try {
         const Acc = await Account.find();
         res.render('Accounts', { accounts: Acc });
@@ -154,6 +153,9 @@ app.post('/ChangePassword', async (req, res) => {
         res.status(500).json({ message: "An error occurred while updating the password!" });
     }
 });
+
+
+
 //LoginRegister
 app.get('/LoginRegister', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-login-register.html'));
@@ -192,6 +194,50 @@ app.post('/LoginRegister', async (req, res) => {
     }
 });
 
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next(); 
+    } else {
+        return res.redirect('/StudentLogin');
+    }
+}
+
+function ensureLoggedInAdvisor(req, res, next) {
+    if (req.session.loggedIn===process.env.advisorEmail) {
+        return next();
+    }
+    else{
+    return res.redirect('/AdvisorLogin');
+}
+}
+function ensureLoggedInHod(req, res, next) {
+    if (req.session.loggedIn===process.env.hodEmail) {
+        return next();
+    }
+    else{
+    return res.redirect('/StaffLogin');
+}
+}
+function ensureLoggedInPrincipal(req, res, next) {
+    if (req.session.loggedIn===process.env.principalEmail) {
+        return next();
+    }
+    else{
+    return res.redirect('/PrincipalLogin');
+}
+}
+function ensureLoggedInAdmin(req, res, next) {
+    if (req.session.loggedIn===process.env.adminEmail) {
+        return next();
+    }
+    else{
+    return res.redirect('/AdminLogin');
+}
+}
+
+
+
+
 //Studentlogin
 app.get('/StudentLogin', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-student-login.html'));
@@ -223,13 +269,16 @@ app.post('/StudentLogin', async (req, res) => {
         };
         
             res.redirect('/Register')
-        
-                   // console.log(student.status);
     } catch (error) {
         console.error("Error logging in:");
         res.status(500).json({ message: "Error logging in", error: error.message });
     }
 });
+
+
+
+
+
 //Advisorlogin
 app.get('/AdvisorLogin', (req, res) => {
     res.sendFile(path.join(__dirname,'html', 'html-advisor-login.html'));
@@ -240,7 +289,10 @@ app.post('/AdvisorLogin',async (req,res)=>{
         console.log(advisor_email,"===",process.env.advisorEmail);
         console.log(advisor_password,"=====",process.env.advisorPassword);
         if(advisor_email===process.env.advisorEmail && advisor_password===process.env.advisorPassword)
+        {
+            req.session.loggedIn=process.env.advisorEmail;
         res.redirect('/AdvisorVerify')
+        }
     else
     res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
@@ -249,6 +301,10 @@ app.post('/AdvisorLogin',async (req,res)=>{
     }
 
 });
+
+
+
+
 //stafflogin
 app.get('/StaffLogin', (req, res) => {
     res.sendFile(path.join(__dirname,'html', 'html-staff-login.html'));
@@ -257,7 +313,10 @@ app.post('/StaffLogin',async (req,res)=>{
     try{
         const{staff_email ,staff_password}=req.body;
         if(staff_email===process.env.hodEmail && staff_password===process.env.hodPassword)
+        {
+            req.session.loggedIn=process.env.hodEmail;
         res.redirect('/StaffVerify');
+        }
         else
         res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
@@ -266,6 +325,9 @@ app.post('/StaffLogin',async (req,res)=>{
     }
 
 });
+
+
+
 //PrincipalLogin
 app.get('/PrincipalLogin', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-principal-login.html'));
@@ -274,7 +336,10 @@ app.post('/PrincipalLogin',async (req,res)=>{
     try{
         const{principal_email ,principal_password}=req.body;
         if(principal_email===process.env.principalEmail && principal_password===process.env.principalPassword)
+        {
+            req.session.loggedIn=process.env.principalEmail;
         res.redirect('/PrincipalVerify')
+        }
         else
         res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
@@ -282,6 +347,9 @@ app.post('/PrincipalLogin',async (req,res)=>{
         res.redirect('/PrincipalLogin')
     }
 });
+
+
+
 //SecurityLogin
 app.get('/AdminLogin', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-admin-login.html'));
@@ -290,7 +358,10 @@ app.post('/AdminLogin',async (req,res)=>{
     try{
         const{security_email ,security_password}=req.body;
         if(security_email===process.env.adminEmail && security_password===process.env.adminPassword)
+        {
+            req.session.loggedIn=process.env.adminEmail;
         res.redirect('/Admin_options')
+        }
         else
         res.status(500).json({ message: "INVALID USER OR PASSWORD"});
     }
@@ -304,31 +375,31 @@ app.post('/AdminLogin',async (req,res)=>{
 app.get('/Who', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'html-who.html'));
 });
-app.get('/Register', (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/StudentLogin');
-    }
+app.get('/Register', isAuthenticated,(req, res) => {
     res.render('html-register', { user: req.session.user });
 });
 
-app.get('/OutpassRegister', (req, res) => {
+app.get('/OutpassRegister', isAuthenticated,(req, res) => {
     if (!req.session.user) {
         return res.redirect('/StudentLogin');
     }
     res.render('OutpassRegister', { user: req.session.user });
 });
-app.get('/OndutyRegister', (req, res) => {
+app.get('/OndutyRegister',isAuthenticated, (req, res) => {
     if (!req.session.user) {
         return res.redirect('/StudentLogin');
     }
     res.render('OndutyRegister', { user: req.session.user });
 });
+
+
 // Handle the form submission
 app.post('/Register', async (req, res) => {
     try {
         if (!req.session.user) {
             return res.redirect('/StudentLogin');
         }
+    
 
         const { purpose_of_outpass, from_date, to_date, type } = req.body;
         const { firstName_S, lastName_S, registerNumber_S, year_S, department_S, address_S, phoneNumber_S, image_S } = req.session.user;
@@ -342,16 +413,14 @@ app.post('/Register', async (req, res) => {
             parent_conduct_number: phoneNumber_S,
             type: type
         });
-        
+    
         // If a record exists, increment the count or delete the record
         if (existingRecord) {
             count = existingRecord.count + 1;
             console.log("Existing record found, deleting...");
             await Database.deleteOne({ register_number: registerNumber_S, parent_conduct_number: phoneNumber_S, type: type });
             console.log("deleted...");
-        } else {
-            console.log("No existing record found");
-        }
+        } 
 
         // Create a new record for the student's outpass request
         const newstu = new Database({
@@ -392,7 +461,7 @@ app.post('/StaffVerify1', async (req, res) => {
     }
 });
 //Advisor verify section
-app.get('/AdvisorVerify', async (req, res) => {
+app.get('/AdvisorVerify',ensureLoggedInAdvisor, async (req, res) => {
     try {
         const search = req.query.search_input;
         const validDepartments = ['cse', 'csbs', 'aids', 'mech', 'aero', 'agri', 'eee', 'ece', 'bme', 'biotech', 'aiml', 'mca'];
@@ -451,7 +520,7 @@ app.post('/AdvisorVerify', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-app.get('/AdvisorVerifyOutpass', async (req, res) => {
+app.get('/AdvisorVerifyOutpass',ensureLoggedInAdvisor,async (req, res) => {
     try {
         const search = req.query.search_input;
         const validDepartments = ['cse', 'csbs', 'aids', 'mech', 'aero', 'agri', 'eee', 'ece', 'bme', 'biotech', 'aiml', 'mca'];
@@ -510,7 +579,7 @@ app.post('/AdvisorVerifyOutpass', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-app.get('/AdvisorVerifyOnduty', async (req, res) => {
+app.get('/AdvisorVerifyOnduty', ensureLoggedInAdvisor,async (req, res) => {
     try {
         const search = req.query.search_input;
         const validDepartments = ['cse', 'csbs', 'aids', 'mech', 'aero', 'agri', 'eee', 'ece', 'bme', 'biotech', 'aiml', 'mca'];
@@ -571,13 +640,12 @@ app.post('/AdvisorVerifyOnduty', async (req, res) => {
     }
 });
 //staffverify section
-app.get('/StaffVerify', async (req, res) => {
+app.get('/StaffVerify',ensureLoggedInHod, async (req, res) => {
     try {
         const search = req.query.search_input; // Get the search input (department or part of it)
         const validDepartments = ['cse', 'csbs', 'aids', 'mech', 'aero', 'agri', 'eee', 'ece', 'bme', 'biotech', 'aiml', 'mca'];
         let students;
         if (search && validDepartments.includes(dept)) {
-            // If search term matches a valid department, filter by department
             students = await Database.find({
                 $or: [
                     { register_number:{ $regex: search, $options: 'i' } },
@@ -592,7 +660,6 @@ app.get('/StaffVerify', async (req, res) => {
                 type: 'homepass'
             }).exec();
         } else {
-            // If no input is provided, fetch all homepass students
             students = await Database.find({
                 department: dept.toUpperCase(),
                 status: 'hod',
@@ -628,10 +695,6 @@ app.post('/StaffVerify', async (req, res) => {
             }
            student.status="principal";
            await student.save();
-           console.log("st",status);
-           console.log(student.parent_conduct_number);
-           const studentPhoneNumber = +91+student.parent_conduct_number;
-           const studentName = student.student_name;
         }
         if (rejected_btn==="reject" && S_Id) {
             const deleteResult = await Database.deleteOne({ _id: S_Id });
@@ -645,7 +708,7 @@ app.post('/StaffVerify', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-app.get('/StaffVerifyOutpass', async (req, res) => {
+app.get('/StaffVerifyOutpass',ensureLoggedInHod, async (req, res) => {
     try {
         const search = req.query.search_input; 
         const validDepartments = ['cse', 'csbs', 'aids', 'mech', 'aero', 'agri', 'eee', 'ece', 'bme', 'biotech', 'aiml', 'mca'];
@@ -707,7 +770,7 @@ app.post('/StaffVerifyOutpass', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-app.get('/StaffVerifyOnduty', async (req, res) => {
+app.get('/StaffVerifyOnduty',ensureLoggedInHod, async (req, res) => {
     try {
         const search = req.query.search_input; 
         const validDepartments = ['cse', 'csbs', 'aids', 'mech', 'aero', 'agri', 'eee', 'ece', 'bme', 'biotech', 'aiml', 'mca'];
@@ -769,7 +832,7 @@ app.post('/StaffVerifyOnduty', async (req, res) => {
     }
 });
 //PrincipalVerify
-app.get('/PrincipalVerify', async(req, res) => {
+app.get('/PrincipalVerify',ensureLoggedInPrincipal, async(req, res) => {
     try{
         const search = req.query.search_input;
         let students;
@@ -832,19 +895,8 @@ app.post('/PrincipalVerify', async (req, res) => {
                 type:student.type
             });
             await final.save();
-            const studentPhoneNumber = "+91" + student.parent_conduct_number;
-            const studentName = student.student_name;
-
-
         }
         if (rejected_btn === "reject" && S_Id) {
-            const student = await Database.findById(S_Id);
-
-            
-            const studentPhoneNumber = "+91" + student.parent_conduct_number;
-            const studentName = student.student_name;
-
-            
             const deleteResult = await Database.deleteOne({ _id: S_Id });
             console.log('Delete Result:', deleteResult);
 
@@ -858,7 +910,7 @@ app.post('/PrincipalVerify', async (req, res) => {
         res.status(500).json({ message: 'Error processing request', error: error.message });
     }
 });
-app.get('/PrincipalVerifyOutpass', async(req, res) => {
+app.get('/PrincipalVerifyOutpass',ensureLoggedInPrincipal, async(req, res) => {
     try{
         const search = req.query.search_input;
         let students;
@@ -933,7 +985,7 @@ app.post('/PrincipalVerifyOutpass', async (req, res) => {
     }
 });
 
-app.get('/PrincipalVerifyOnduty', async(req, res) => {
+app.get('/PrincipalVerifyOnduty', ensureLoggedInPrincipal,async(req, res) => {
     try{
         const search = req.query.search_input;
         let students;
@@ -1079,7 +1131,7 @@ app.get('/History', async (req, res) => {
     }
 });
 // Route to render the feedbacks
-app.get('/Feedback', async (req, res) => {
+app.get('/Feedback',ensureLoggedInAdmin, async (req, res) => {
     try {
         // Fetch all feedbacks from the database
         const feedbacks = await Feedback.find();

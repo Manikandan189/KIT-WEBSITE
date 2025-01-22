@@ -79,23 +79,23 @@
                 <div class="back">
                     <div class="box">
                         <div class="status_box">
-                            <form>
+                            <form onsubmit="statusMessage(event)">
                                 <div class="register-title-back">
                                     <h2>Status</h2>
                                 </div>
                                 <p class="search_text"> Register-Number</p>
                                 <input type="text" class="search" name="track" placeholder="711521BCS026" required><br>
-                                <button class="track_btn" type="submit" id="sub" onclick="statusMessage(event)">Track</button>
+                                <button class="track_btn" type="submit" id="sub">Track</button>
                             </form>
                         </div>
                         <div class="history_box">
-                            <form>
+                            <form onsubmit="historyview(event)">
                                 <div class="register-title-back">
                                     <h2>History</h2>
                                 </div>
                                 <p class="history_search_text"> Register-Number</p>
                                 <input type="text" class="history" name="history" placeholder="711521BCS026" required><br>
-                                <button class="history_btn" type="submit" onclick="historyview(event)">History</button>
+                                <button class="history_btn" type="submit" >History</button>
                             </form>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          &copy; 2024 Kitwebsite.com | All rights reserved
+          &copy; 2024 Kitdigitalpass.com | All rights reserved
         </div>
     </div>
 </body>

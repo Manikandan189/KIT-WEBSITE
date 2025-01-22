@@ -26,25 +26,25 @@
    
         <p class="head_status" id="status">Status</p>
         <div class="status_box" id="statuspop">
-            <form>
+            <form onsubmit="statusMessage(event)">
                 <div class="register-title-back">
                     <h2>Status</h2>
                 </div>
                 <p class="search_text">Register-Number</p>
                 <input type="text" class="search" name="track" placeholder="711521BCS026" required><br>
-                <button type="submit" class="track_btn" id="sub" onclick="statusMessage(event)">Track</button>
+                <button type="submit" class="track_btn" id="sub" >Track</button>
             </form>
         </div>
 
         <p class="head_history" id="history">History</p>
         <div class="history_box" id="historypop">
-            <form>
+            <form onsubmit="historyview(event)">
                 <div class="register-title-back">
                     <h2>History</h2>
                 </div>
                 <p class="history_search_text">Register-Number</p>
                 <input type="text" class="history" name="history" placeholder="711521BCS026" required><br>
-                <button type="submit" class="history_btn" onclick="historyview(event)">History</button>
+                <button type="submit" class="history_btn" >History</button>
             </form>
         </div>
 
@@ -95,7 +95,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2025 Kitwebsite.com | All rights reserved
+            &copy; 2025 kitdigitalpass.com | All rights reserved
         </div>
       </div>
       <div class="non-desktop-message">
